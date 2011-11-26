@@ -16,12 +16,13 @@ public class GroupParser extends ClausuleParser<Group> {
 
 	public void parse() {
 		List<String> groups = getClausule().getGroups();
+		sb = new StringBuilder();
 		int i = 0;
 		sb.append(" group by ");
 		for (String g : groups) {
 			sb.append(g);
 			if (i < groups.size() - 1) {
-				sb.append(",");
+				sb.append(", ");
 			}
 			i++;
 		}

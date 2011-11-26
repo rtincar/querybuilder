@@ -170,5 +170,15 @@ public class QueryBuilder extends AbstractQuery<QueryBuilder>{
 	public Order getOrder() {
 		return order;
 	}
+	
+	public QueryBuilder order(String column) {
+		order = Order.by(column, Order.Direction.ASC);
+		return self();
+	}
+	
+	public QueryBuilder order(Order order) {
+		this.order = order;
+		return self();
+	}
 
 }

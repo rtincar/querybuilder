@@ -16,6 +16,7 @@ public class OrderParser extends ClausuleParser<Order> {
 	}
 
 	public void parse() {
+		sb = new StringBuilder();
 		sb.append(" order by ");
 		int i = 0;
 		Map<String, Direction> orders = getClausule().getOrders();
@@ -25,7 +26,7 @@ public class OrderParser extends ClausuleParser<Order> {
 			sb.append((orders.get(key).equals(Order.Direction.ASC) ? "asc"
 					: "desc"));
 			if (i < orders.size() - 1) {
-				sb.append(",");
+				sb.append(", ");
 			}
 			i++;
 		}
