@@ -1,22 +1,12 @@
 package com.querybuilder.parsers;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.querybuilder.QueryBuilder;
-import com.querybuilder.clausules.Where;
+import com.querybuilder.clausules.Order;
 
-public class QueryParser implements Parser {
-
-	private QueryBuilder query;
-	private String parsedQuery;
-	private Map<String, Object> parameterMap;
-	private int paramIndex = 0;
-	private StringBuilder sb = new StringBuilder();
-	
+public class QueryParser extends AbstractQueryParser<QueryBuilder> {
 
 	private QueryParser(QueryBuilder query) {
-		this.query = query;
+		super(query);
 	}
 	
 	public static QueryParser get(QueryBuilder query) {
@@ -24,32 +14,17 @@ public class QueryParser implements Parser {
 	}
 
 	public void parse() {
-		parameterMap = new LinkedHashMap<String, Object>();
-		parseWhere(sb);
+		super.parse();
+		parseOrder();
 	}
 
-	public String getParsedString() {
-		return parsedQuery;
+	private void parseOrder() {
+		Order order = query.getOrder();
+		if (order != null) {
+			OrderParser orderParser = OrderParser.get(order);
+			orderParser.parse();
+			sb.append(orderParser.getParsedString());
+		} 
 	}
-
-	public Map<String, Object> getParameterMap() {
-		return parameterMap;
-	}
-	
-	private void parseWhere(StringBuilder sb) {
-		Where where = query.getWhere();
-		if (where != null) {
-			WhereParser whereParser = WhereParser.get(where, paramIndex);
-			whereParser.parse();
-			sb.append(whereParser.getParsedString());
-			parameterMap.putAll(whereParser.getParameterMap());
-			paramIndex += parameterMap.size() + 1;//Esto hay que pensarlo
-		}
-	}
-	
-	private String sanitizeEmptySpaces(String s) {
-		return s.replaceAll("\\s+", " ");
-	}
-
 
 }

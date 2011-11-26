@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.querybuilder.clausules.Order;
 import com.querybuilder.parsers.QueryParser;
 import com.querybuilder.util.processor.Processor;
 import com.querybuilder.util.transformer.Transformer;
@@ -15,6 +16,7 @@ import com.querybuilder.util.transformer.Transformer;
 public class QueryBuilder extends AbstractQuery<QueryBuilder>{
 	
 	private QueryParser queryParser = QueryParser.get(this);
+	private Order order;
 	private Integer first;
 	private Integer max;
 	private EntityManager entityManager;
@@ -163,6 +165,10 @@ public class QueryBuilder extends AbstractQuery<QueryBuilder>{
 
 	public Integer getMax() {
 		return max;
+	}
+	
+	public Order getOrder() {
+		return order;
 	}
 
 }
