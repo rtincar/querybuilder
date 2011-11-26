@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Volumes/DATOS/ganywork/jboss-seam-2.2.0.GA/lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="lib" path="/Volumes/DATOS/ganywork/jboss-seam-2.2.0.GA/lib/ejb3-persistence.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
