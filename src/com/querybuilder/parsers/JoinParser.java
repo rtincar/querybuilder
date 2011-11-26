@@ -14,10 +14,6 @@ public class JoinParser extends ClausuleParser<Join> {
 		return new JoinParser(join);
 	}
 
-	public String getParsedString() {
-		return sb.toString();
-	}
-
 	public void parse() {
 		sb = new StringBuilder();
 		List<Join.JoinExpression> joins = getClausule().getJoins();

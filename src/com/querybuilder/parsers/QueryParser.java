@@ -46,6 +46,10 @@ public class QueryParser implements Parser {
 			paramIndex += parameterMap.size() + 1;//Esto hay que pensarlo
 		}
 	}
+	
+	private String sanitizeEmptySpaces(String s) {
+		return s.replaceAll("\\s+", " ");
+	}
 
 
 }

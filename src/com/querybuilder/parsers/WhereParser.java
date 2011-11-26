@@ -42,10 +42,6 @@ public class WhereParser extends ClausuleParser<Where> {
 		parseConditions(conditions, sb, getClausule().getType().equals(Where.Type.ANY));
 	}
 
-	public String getParsedString() {
-		return sanitizeEmptySpaces(sb.toString());
-	}
-
 	public Map<String, Object> getParameterMap() {
 		return parameterMap;
 	}
@@ -133,10 +129,6 @@ public class WhereParser extends ClausuleParser<Where> {
 			}
 		}
 		sb.append(" ) ");
-	}
-
-	private String sanitizeEmptySpaces(String s) {
-		return s.replaceAll("\\s+", " ");
 	}
 
 }

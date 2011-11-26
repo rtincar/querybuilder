@@ -48,5 +48,9 @@ public class SubqueryParser implements Parser {
 			paramIndex += parameterMap.size();
 		}
 	}
+	
+	private String sanitizeEmptySpaces(String s) {
+		return s.replaceAll("\\s+", " ");
+	}
 
 }

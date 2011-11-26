@@ -14,14 +14,18 @@ public class GroupParser extends ClausuleParser<Group> {
 		return new GroupParser(group);
 	}
 
-	public String getParsedString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void parse() {
 		List<String> groups = getClausule().getGroups();
-		
+		int i = 0;
+		sb.append(" group by ");
+		for (String g : groups) {
+			sb.append(g);
+			if (i < groups.size() - 1) {
+				sb.append(",");
+			}
+			i++;
+		}
+		sb.append(" ");
 	}
 	
 	

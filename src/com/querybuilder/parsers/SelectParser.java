@@ -6,8 +6,6 @@ import com.querybuilder.clausules.Select;
 
 public class SelectParser extends ClausuleParser<Select> {
 	
-
-	
 	private SelectParser(Select select) {
 		super(select);
 	}
@@ -26,12 +24,9 @@ public class SelectParser extends ClausuleParser<Select> {
 			if (cont < selection.size() - 1) {
 				sb.append(",");
 			}
+			cont++;
 		}
 		sb.append(" ");
-	}
-
-	public String getParsedString() {
-		return sb.toString();
 	}
 
 }

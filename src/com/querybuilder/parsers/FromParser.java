@@ -15,10 +15,6 @@ public class FromParser extends ClausuleParser<From> {
 		return new FromParser(from);
 	}
 
-	public String getParsedString() {
-		return sb.toString();
-	}
-
 	public void parse() {
 		sb = new StringBuilder();
 		List<FromExpression> froms = getClausule().getFroms();
@@ -29,6 +25,7 @@ public class FromParser extends ClausuleParser<From> {
 			if (i < froms.size() - 1) {
 				sb.append(", ");
 			}
+			i++;
 		}
 		sb.append(" ");
 

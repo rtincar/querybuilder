@@ -10,6 +10,7 @@ import com.querybuilder.clausules.Clausule;
  *
  */
 public abstract class ClausuleParser<T extends Clausule> implements Parser {
+	
 	protected T clausule;
 	protected StringBuilder sb;
 	
@@ -21,6 +22,12 @@ public abstract class ClausuleParser<T extends Clausule> implements Parser {
 	protected T getClausule() {
 		return clausule;
 	}
+
+	public String getParsedString() {
+		return sb.toString();
+	}
+	
+	
 
 
 }
