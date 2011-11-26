@@ -7,12 +7,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.querybuilder.All;
-import com.querybuilder.Any;
-import com.querybuilder.Condition;
-import com.querybuilder.One;
 import com.querybuilder.Subquery;
+import com.querybuilder.clausules.All;
+import com.querybuilder.clausules.Any;
+import com.querybuilder.clausules.Condition;
 import com.querybuilder.clausules.Having;
+import com.querybuilder.clausules.One;
 import com.querybuilder.clausules.Where;
 
 public class HavingParser extends ClausuleParser<Having> {

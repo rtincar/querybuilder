@@ -2,10 +2,10 @@ package com.querybuilder.test;
 
 import java.util.Date;
 
-import com.querybuilder.All;
-import com.querybuilder.Any;
-import com.querybuilder.One;
 import com.querybuilder.Subquery;
+import com.querybuilder.clausules.All;
+import com.querybuilder.clausules.Any;
+import com.querybuilder.clausules.One;
 import com.querybuilder.clausules.Where;
 import com.querybuilder.parsers.WhereParser;
 

@@ -3,7 +3,6 @@ package com.querybuilder.clausules;
 import java.util.Arrays;
 import java.util.List;
 
-import com.querybuilder.Condition;
 
 public class Where extends Predicator {
 

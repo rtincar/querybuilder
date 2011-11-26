@@ -3,7 +3,6 @@ package com.querybuilder.clausules;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.querybuilder.Condition;
 
 public abstract class Predicator implements Clausule {
 
