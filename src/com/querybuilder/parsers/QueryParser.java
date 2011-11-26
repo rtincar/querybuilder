@@ -3,23 +3,23 @@ package com.querybuilder.parsers;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.querybuilder.Query;
+import com.querybuilder.QueryBuilder;
 import com.querybuilder.clausules.Where;
 
 public class QueryParser implements Parser {
 
-	private Query query;
+	private QueryBuilder query;
 	private String parsedQuery;
 	private Map<String, Object> parameterMap;
 	private int paramIndex = 0;
 	private StringBuilder sb = new StringBuilder();
 	
 
-	private QueryParser(Query query) {
+	private QueryParser(QueryBuilder query) {
 		this.query = query;
 	}
 	
-	public static QueryParser get(Query query) {
+	public static QueryParser get(QueryBuilder query) {
 		return new QueryParser(query);
 	}
 

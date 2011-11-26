@@ -4,34 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import com.querybuilder.parsers.QueryParser;
 import com.querybuilder.util.processor.Processor;
 import com.querybuilder.util.transformer.Transformer;
 
 @SuppressWarnings("unchecked")
-public class Query extends AbstractQuery<Query>{
+public class QueryBuilder extends AbstractQuery<QueryBuilder>{
 	
 	private QueryParser queryParser = QueryParser.get(this);
 	private Integer first;
 	private Integer max;
+	private EntityManager entityManager;
 	
-	private Query(){}
+	private QueryBuilder(EntityManager entityManager){
+		this.entityManager = entityManager;
+	}
 	
-	public static Query create(EntityManager proxy) {
-		return new Query();
+	public static QueryBuilder create(EntityManager entityManager) {
+		return new QueryBuilder(entityManager);
 	}
 	
 	@Override
-	protected Query self() {
+	protected QueryBuilder self() {
 		return this;
 	}
 
-	public Query take(Integer from) {
+	public QueryBuilder take(Integer from) {
 		this.first = from;
 		return self();
 	}
 	
-	public Query take(Integer from, Integer elements) {
+	public QueryBuilder take(Integer from, Integer elements) {
 		this.first = from;
 		this.max = elements;
 		return self();
@@ -41,16 +47,47 @@ public class Query extends AbstractQuery<Query>{
 		queryParser.parse();
 		String parsedQuery = queryParser.getParsedString();
 		Map<String, Object> parameterMap = queryParser.getParameterMap();
-		return null;
+		Query query = entityManager.createQuery(parsedQuery);
+		for (String k : parameterMap.keySet()) {
+			query.setParameter(k, parameterMap.get(k));
+		}
+		if (first != null) {
+			query.setFirstResult(first);
+		}
+		if (max != null) {
+			query.setMaxResults(max);
+		} 
+		return query.getResultList();
 	}
 	
 	
 	public Object one() {
-		return null;
+		queryParser.parse();
+		String parsedQuery = queryParser.getParsedString();
+		Map<String, Object> parameterMap = queryParser.getParameterMap();
+		Query query = entityManager.createQuery(parsedQuery);
+		for (String k : parameterMap.keySet()) {
+			query.setParameter(k, parameterMap.get(k));
+		}
+		return query.getSingleResult();
 	}
 	
 	public Object first() {
-		return null;
+		queryParser.parse();
+		String parsedQuery = queryParser.getParsedString();
+		Map<String, Object> parameterMap = queryParser.getParameterMap();
+		Query query = entityManager.createQuery(parsedQuery);
+		for (String k : parameterMap.keySet()) {
+			query.setParameter(k, parameterMap.get(k));
+		}
+		if (first != null) {
+			query.setFirstResult(first);
+		}
+		if (max != null) {
+			query.setMaxResults(1);
+		} 
+		List resultList = query.getResultList();
+		return (resultList.size() > 0) ? resultList.get(0) : null;
 	}
 	
 	public <T> List<T> all(Class<T> clazz) {
