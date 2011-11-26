@@ -1,5 +1,12 @@
 package com.querybuilder;
 
+import com.querybuilder.clausules.From;
+import com.querybuilder.clausules.Group;
+import com.querybuilder.clausules.Having;
+import com.querybuilder.clausules.Join;
+import com.querybuilder.clausules.Select;
+import com.querybuilder.clausules.Where;
+
 
 public abstract class AbstractQuery<T> {
 

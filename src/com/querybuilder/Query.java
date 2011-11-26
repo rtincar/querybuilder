@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.querybuilder.util.parsers.QueryParser;
+import com.querybuilder.parsers.QueryParser;
 import com.querybuilder.util.processor.Processor;
 import com.querybuilder.util.transformer.Transformer;
 

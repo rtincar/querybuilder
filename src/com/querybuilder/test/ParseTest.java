@@ -6,8 +6,8 @@ import com.querybuilder.All;
 import com.querybuilder.Any;
 import com.querybuilder.One;
 import com.querybuilder.Subquery;
-import com.querybuilder.Where;
-import com.querybuilder.util.parsers.WhereParser;
+import com.querybuilder.clausules.Where;
+import com.querybuilder.parsers.WhereParser;
 
 
 public class ParseTest {
