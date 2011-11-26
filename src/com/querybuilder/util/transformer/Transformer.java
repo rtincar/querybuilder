@@ -5,7 +5,7 @@ package com.querybuilder.util.transformer;
  * 
  * @author rtinoco
  *
- * @param <T>
+ * @param <T> Tipo de retorno de la tranformacion
  */
 public interface Transformer<T> {
 	
