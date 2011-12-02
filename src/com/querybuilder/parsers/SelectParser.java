@@ -22,7 +22,7 @@ public class SelectParser extends ClausuleParser<Select> {
 		for (String key : selection.keySet()) {
 			sb.append(key + " as " + selection.get(key));
 			if (cont < selection.size() - 1) {
-				sb.append(",");
+				sb.append(", ");
 			}
 			cont++;
 		}

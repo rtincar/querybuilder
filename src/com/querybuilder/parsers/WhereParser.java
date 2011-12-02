@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.querybuilder.Subquery;
+import com.querybuilder.SubqueryBuilder;
 import com.querybuilder.clausules.All;
 import com.querybuilder.clausules.Any;
 import com.querybuilder.clausules.Condition;
@@ -67,8 +67,8 @@ public class WhereParser extends ClausuleParser<Where> {
 				String s = tokens.nextToken();
 				if (s.equals("?")) {
 					Object arg = arguments[cont];
-					if (arg instanceof Subquery) {
-						Subquery sub = (Subquery) arg;
+					if (arg instanceof SubqueryBuilder) {
+						SubqueryBuilder sub = (SubqueryBuilder) arg;
 						SubqueryParser build = SubqueryParser.get(sub, paramIndex);
 						build.parse();
 						paramIndex += build.getParameterMap().size();

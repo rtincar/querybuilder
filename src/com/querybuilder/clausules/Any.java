@@ -21,7 +21,7 @@ public class Any extends Many {
 		return this;
 	}
 
-	public static Any with(Condition condition) {
+	public static Any that(Condition condition) {
 		return new Any(condition);
 	}
 

@@ -9,7 +9,7 @@ import com.querybuilder.clausules.Select;
 import com.querybuilder.clausules.Where;
 
 
-public abstract class AbstractQuery<T> {
+public abstract class AbstractQueryBuilder<T> {
 
 	protected Select select;
 	protected From from;

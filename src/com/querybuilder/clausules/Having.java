@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Having extends Predicator {
 	
-	private Having(Type type) {
+	private Having(Predicator.Type type) {
 		this.type = type;
 	}
 
@@ -18,7 +18,7 @@ public class Having extends Predicator {
 		return new Having(condition);
 	}
 
-	public static Having that(Having.Type type, Condition... conditions) {
+	public static Having that(Predicator.Type type, Condition... conditions) {
 		Having instance = new Having(type);
 		instance.getConditions().addAll(
 				(List<Condition>) Arrays.asList(conditions));

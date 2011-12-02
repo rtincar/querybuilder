@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Where extends Predicator {
 
-	private Where(Type type) {
+	private Where(Predicator.Type type) {
 		this.type = type;
 	}
 
@@ -18,7 +18,7 @@ public class Where extends Predicator {
 		return new Where(condition);
 	}
 
-	public static Where given(Where.Type type, Condition... conditions) {
+	public static Where given(Predicator.Type type, Condition... conditions) {
 		Where instance = new Where(type);
 		instance.getConditions().addAll(
 				(List<Condition>) Arrays.asList(conditions));

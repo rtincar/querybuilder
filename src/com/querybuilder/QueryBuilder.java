@@ -13,7 +13,7 @@ import com.querybuilder.util.processor.Processor;
 import com.querybuilder.util.transformer.Transformer;
 
 @SuppressWarnings("unchecked")
-public class QueryBuilder extends AbstractQuery<QueryBuilder>{
+public class QueryBuilder extends AbstractQueryBuilder<QueryBuilder>{
 	
 	private QueryParser queryParser = QueryParser.get(this);
 	private Order order;

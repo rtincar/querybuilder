@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.querybuilder.AbstractQuery;
+import com.querybuilder.AbstractQueryBuilder;
 import com.querybuilder.clausules.Group;
 import com.querybuilder.clausules.Having;
 import com.querybuilder.clausules.Join;
@@ -12,7 +12,7 @@ import com.querybuilder.clausules.Select;
 import com.querybuilder.clausules.Where;
 import com.querybuilder.clausules.From.FromExpression;
 
-public abstract class AbstractQueryParser<T extends AbstractQuery<T>> implements Parser {
+public abstract class AbstractQueryParser<T extends AbstractQueryBuilder<T>> implements Parser {
 	
 	protected Map<String, Object> parameterMap;
 	protected int paramIndex = 0;
