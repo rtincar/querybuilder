@@ -11,5 +11,9 @@ public class SelectNode extends Node {
 		return selectionMap;
 	}
 	
+	public void add(String propery, String alias) {
+		selectionMap.put(propery, alias);
+	}
+	
 
 }

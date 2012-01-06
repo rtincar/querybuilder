@@ -14,7 +14,7 @@ public class SimpleCondition extends ConditionExpression {
 	private Object[] arguments;
 	private Map<String, Object> parameterMap = new HashMap<String, Object>(0);
 
-	public SimpleCondition(String condition, Object[] arguments) {
+	public SimpleCondition(String condition, Object...arguments) {
 		this.condition = condition;
 		this.arguments = arguments;
 	}
@@ -35,19 +35,11 @@ public class SimpleCondition extends ConditionExpression {
 				String s = tokens.nextToken();
 				if (s.equals("?")) {
 					Object arg = arguments[cont];
-					if (arg instanceof QueryCreator) {
-						QueryCreator qc = (QueryCreator) arg;
-						QueryExpression qe = new QueryExpression();
-						QueryObject qo = qc.getQueryObject();
-						qo.setStartParamIndex(paramIndex);
-						sb.append(" ( ").append(qe.parse(qo)).append(" ) ");
-						paramIndex = qo.getStartParamIndex();
-						parameterMap.putAll(qo.getParamterMap());
+					if (arg instanceof QueryObject) {
+						paramIndex = processQueryObjectArgument(sb, paramIndex,
+								arg);
 					} else {
-						String paramName = "e" + paramIndex;
-						sb.append(":" + paramName);
-						parameterMap.put(paramName, arg);
-						paramIndex++;
+						paramIndex = processObjectArgument(sb, paramIndex, arg);
 						cont++;
 					}
 				} else {
@@ -59,6 +51,26 @@ public class SimpleCondition extends ConditionExpression {
 			sb.append(condition);
 		}
 		return sb.toString();
+	}
+
+	private int processObjectArgument(StringBuilder sb, int paramIndex,
+			Object arg) {
+		String paramName = "e" + paramIndex;
+		sb.append(":" + paramName);
+		parameterMap.put(paramName, arg);
+		paramIndex++;
+		return paramIndex;
+	}
+
+	private int processQueryObjectArgument(StringBuilder sb, int paramIndex,
+			Object arg) {
+		QueryExpression qe = new QueryExpression();
+		QueryObject qo = (QueryObject) arg;
+		qo.setStartParamIndex(paramIndex);
+		sb.append(" ( ").append(qe.parse(qo)).append(" ) ");
+		paramIndex = qo.getStartParamIndex();
+		parameterMap.putAll(qo.getParameterMap());
+		return paramIndex;
 	}
 
 	/**

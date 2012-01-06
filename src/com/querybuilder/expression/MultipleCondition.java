@@ -14,6 +14,10 @@ public abstract class MultipleCondition extends ConditionExpression {
 	public List<ConditionExpression> getConditions() {
 		return conditions;
 	}
+	
+	public void add(ConditionExpression condition) {
+		conditions.add(condition);
+	}
 
 	@Override
 	public Map<String, Object> getParameters() {
@@ -26,8 +30,10 @@ public abstract class MultipleCondition extends ConditionExpression {
 		Iterator<ConditionExpression> iterator = conditions.iterator();
 		while(iterator.hasNext()) {
 			ConditionExpression next = iterator.next();
-			sb.append(" ").append(next.parse(queryObject)).append(" ").append(
-					getOp()).append(" ");
+			sb.append(next.parse(queryObject));
+			if (iterator.hasNext()) {
+				sb.append(" ").append(getOp()).append(" ");
+			}
 			parameterMap.putAll(next.getParameters());
 		}
 		

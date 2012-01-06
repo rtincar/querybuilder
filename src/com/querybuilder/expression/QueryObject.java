@@ -1,6 +1,9 @@
 package com.querybuilder.expression;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,45 +12,105 @@ import java.util.Map;
  * @author rtincar
  * 
  */
-public class QueryObject {
-	
+public class QueryObject implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6160919509754143622L;
+
+	public enum ConditionEvaluationMode {
+		ALL, ANY
+	}
+
+	public enum JoinType {
+		FULL, LEFT, INNER
+	}
+
 	private int startParamIndex = 0;
-	
-	private SelectNode selectNode;
-	private Map<String, Object> paramterMap = new HashMap<String, Object>();
-	private LimitNode limitNode;
-	private WhereNode whereNode;
 
-	public SelectNode getSelectNode() {
-		return selectNode;
+	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
+	private Map<String, String> selects = new LinkedHashMap<String, String>();
+	private Map<Class<?>, String> froms = new LinkedHashMap<Class<?>, String>();
+	private List<Join> joins = new ArrayList<Join>();
+	private List<ConditionExpression> conditions = new ArrayList<ConditionExpression>();
+	private List<ConditionExpression> havings = new ArrayList<ConditionExpression>();
+	private String orderBy;
+	private String groupBy;
+	private Integer first;
+	private Integer max;
+	private QueryObject.ConditionEvaluationMode conditionEvaluationMode = QueryObject.ConditionEvaluationMode.ALL;
+
+	public Map<String, String> getSelects() {
+		return selects;
 	}
 
-	public void setSelectNode(SelectNode selectNode) {
-		this.selectNode = selectNode;
+	public void setSelects(Map<String, String> selects) {
+		this.selects = selects;
 	}
 
-	public Map<String, Object> getParamterMap() {
-		return paramterMap;
+	public Map<Class<?>, String> getFroms() {
+		return froms;
 	}
 
-	public void setParamterMap(Map<String, Object> paramterMap) {
-		this.paramterMap = paramterMap;
+	public void setFroms(Map<Class<?>, String> froms) {
+		this.froms = froms;
 	}
 
-	public LimitNode getLimitNode() {
-		return limitNode;
+	public List<Join> getJoins() {
+		return joins;
 	}
 
-	public void setLimitNode(LimitNode limitNode) {
-		this.limitNode = limitNode;
+	public void setJoins(List<Join> joins) {
+		this.joins = joins;
 	}
 
-	public WhereNode getWhereNode() {
-		return whereNode;
+	public List<ConditionExpression> getHavings() {
+		return havings;
 	}
 
-	public void setWhereNode(WhereNode whereNode) {
-		this.whereNode = whereNode;
+	public void setHavings(List<ConditionExpression> havings) {
+		this.havings = havings;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public String getGroupBy() {
+		return groupBy;
+	}
+
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
+	}
+
+	public Integer getFirst() {
+		return first;
+	}
+
+	public void setFirst(Integer first) {
+		this.first = first;
+	}
+
+	public Integer getMax() {
+		return max;
+	}
+
+	public void setMax(Integer max) {
+		this.max = max;
+	}
+
+	public Map<String, Object> getParameterMap() {
+		return parameterMap;
+	}
+
+	public void setParameterMap(Map<String, Object> parameterMap) {
+		this.parameterMap = parameterMap;
 	}
 
 	public int getStartParamIndex() {
@@ -57,7 +120,48 @@ public class QueryObject {
 	public void setStartParamIndex(int startParamIndex) {
 		this.startParamIndex = startParamIndex;
 	}
-	
-	
+
+	public QueryObject.ConditionEvaluationMode getConditionEvaluationMode() {
+		return conditionEvaluationMode;
+	}
+
+	public void setConditionEvaluationMode(
+			QueryObject.ConditionEvaluationMode conditionEvaluationMode) {
+		this.conditionEvaluationMode = conditionEvaluationMode;
+	}
+
+	public List<ConditionExpression> getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(List<ConditionExpression> conditions) {
+		this.conditions = conditions;
+	}
+
+	public class Join {
+
+		private String path;
+		private String alias;
+		private JoinType joinType;
+
+		public Join(String path, String alias, JoinType joinType) {
+			this.path = path;
+			this.alias = alias;
+			this.joinType = joinType;
+		}
+
+		public String getPath() {
+			return path;
+		}
+
+		public String getAlias() {
+			return alias;
+		}
+
+		public JoinType getJoinType() {
+			return joinType;
+		}
+
+	}
 
 }
