@@ -1,17 +1,20 @@
 package com.querybuilder.expression;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.querybuilder.expression.QueryObject.From;
+import com.querybuilder.expression.QueryObject.Join;
+import com.querybuilder.expression.QueryObject.Select;
+
 public class QueryCreator {
 	
 	private QueryObject queryObject;
 	private EntityManager entityManager;
-	
-	private int selectAliasIndex = 0;
-	private static final String SELECT_ALIAS = "_a";
 	
 	public QueryObject getQueryObject() {
 		return queryObject;
@@ -49,8 +52,8 @@ public class QueryCreator {
 		QueryExpression qe = new QueryExpression();
 		String parsedQuery = qe.parse(queryObject);
 		Query q = entityManager.createQuery(parsedQuery);
-		for (String k : qe.getParameterMap().keySet()) {
-			q.setParameter(k, qe.getParameterMap().get(k));
+		for (String k : qe.getParameters().keySet()) {
+			q.setParameter(k, qe.getParameters().get(k));
 		}
 		if (qe.getFirstResult() != null) {
 			q.setFirstResult(qe.getFirstResult());
@@ -65,55 +68,73 @@ public class QueryCreator {
 		queryObject.setConditionEvaluationMode(mode);
 		return this;
 	}
-	
-	public QueryCreator addCondition(ConditionExpression conditionExpression) {
-		queryObject.getConditions().add(conditionExpression);
+
+	public QueryCreator select(Select...selects) {
+		queryObject.getSelects().addAll(Arrays.asList(selects));
 		return this;
 	}
 	
-	public QueryCreator addSelect(String select) {
-		String alias = SELECT_ALIAS + selectAliasIndex;
-		selectAliasIndex++;
-		queryObject.getSelects().put(select, alias);
+	public QueryCreator from(From...froms) {
+		queryObject.getFroms().addAll(Arrays.asList(froms));
+		return this;
+	}
+
+	public QueryCreator join(Join...joins) {
+		queryObject.getJoins().addAll(Arrays.asList(joins));
+		return this;
+	}
+
+	public QueryCreator whereAll(ConditionExpression...conditions) {
+		queryObject.getConditions().add(ExpressionFactory.all(conditions));
 		return this;
 	}
 	
-	public QueryCreator addSelect(String propery, String alias) {
-		queryObject.getSelects().put(propery, alias);
+	public QueryCreator whereAny(ConditionExpression...conditions) {
+		queryObject.getConditions().add(ExpressionFactory.any(conditions));
 		return this;
 	}
 	
-	public QueryCreator from(Class<?> clazz, String alias) {
-		queryObject.getFroms().put(clazz, alias);
-		return this;
-	}
-	
-	public QueryCreator joinTo(String path, String alias, QueryObject.JoinType type) {
-		queryObject.getJoins().add(queryObject.new Join(path, alias, type));
-		return this;
-	}
-	
-	public QueryCreator groupBy(String group) {
+	public QueryCreator groupBy(String...group) {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<String> iterator = Arrays.asList(group).iterator(); iterator.hasNext();) {
+			sb.append(iterator.next());
+			if (iterator.hasNext()) {
+				sb.append(", ");
+			}
+		}
 		if (queryObject.getGroupBy() != null && queryObject.getGroupBy().length() > 0) {
 			String current = queryObject.getGroupBy();
-			queryObject.setGroupBy(current + ", " + group);
+			queryObject.setGroupBy(current + ", " + sb.toString());
 		} else {
-			queryObject.setGroupBy(group);
+			queryObject.setGroupBy(sb.toString());
 		}
 		return this;
 	}
 	
-	public QueryCreator having(ConditionExpression conditionExpression) {
-		queryObject.getHavings().add(conditionExpression);
+	public QueryCreator havingAll(ConditionExpression...conditionExpression) {
+		queryObject.getHavings().add(ExpressionFactory.all(conditionExpression));
 		return this;
 	}
 	
-	public QueryCreator orderBy(String order) {
+	public QueryCreator havingAny(ConditionExpression...conditionExpression) {
+		queryObject.getHavings().add(ExpressionFactory.any(conditionExpression));
+		return this;
+	}
+	
+	public QueryCreator orderBy(String...order) {
+		
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<String> iterator = Arrays.asList(order).iterator(); iterator.hasNext();) {
+			sb.append(iterator.next());
+			if (iterator.hasNext()) {
+				sb.append(", ");
+			}
+		}
 		if (queryObject.getOrderBy() != null && queryObject.getOrderBy().length() > 0) {
 			String current = queryObject.getOrderBy();
-			queryObject.setOrderBy(current + ", " + order);
+			queryObject.setOrderBy(current + ", " + sb.toString());
 		} else {
-			queryObject.setOrderBy(order);
+			queryObject.setOrderBy(sb.toString());
 		}
 		return this;
 	}

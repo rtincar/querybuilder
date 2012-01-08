@@ -1,7 +1,6 @@
 package com.querybuilder.expression;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +28,9 @@ public class QueryObject implements java.io.Serializable {
 
 	private int startParamIndex = 0;
 
-	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
-	private Map<String, String> selects = new LinkedHashMap<String, String>();
-	private Map<Class<?>, String> froms = new LinkedHashMap<Class<?>, String>();
+	private Map<String, Object> parameters = new LinkedHashMap<String, Object>();
+	private List<Select> selects = new ArrayList<Select>(0);
+	private List<From> froms = new ArrayList<From>(0);
 	private List<Join> joins = new ArrayList<Join>();
 	private List<ConditionExpression> conditions = new ArrayList<ConditionExpression>();
 	private List<ConditionExpression> havings = new ArrayList<ConditionExpression>();
@@ -41,19 +40,19 @@ public class QueryObject implements java.io.Serializable {
 	private Integer max;
 	private QueryObject.ConditionEvaluationMode conditionEvaluationMode = QueryObject.ConditionEvaluationMode.ALL;
 
-	public Map<String, String> getSelects() {
+	public List<Select> getSelects() {
 		return selects;
 	}
 
-	public void setSelects(Map<String, String> selects) {
+	public void setSelects(List<Select> selects) {
 		this.selects = selects;
 	}
 
-	public Map<Class<?>, String> getFroms() {
+	public List<From> getFroms() {
 		return froms;
 	}
 
-	public void setFroms(Map<Class<?>, String> froms) {
+	public void setFroms(List<From> froms) {
 		this.froms = froms;
 	}
 
@@ -106,11 +105,11 @@ public class QueryObject implements java.io.Serializable {
 	}
 
 	public Map<String, Object> getParameterMap() {
-		return parameterMap;
+		return parameters;
 	}
 
 	public void setParameterMap(Map<String, Object> parameterMap) {
-		this.parameterMap = parameterMap;
+		this.parameters = parameterMap;
 	}
 
 	public int getStartParamIndex() {
@@ -162,6 +161,45 @@ public class QueryObject implements java.io.Serializable {
 			return joinType;
 		}
 
+	}
+	
+	public class From {
+		
+		private Class<?> entity;
+		private String alias;
+
+		public From(Class<?> entity, String alias) {
+			this.entity = entity;
+			this.alias = alias;
+		}
+
+		public Class<?> getEntity() {
+			return entity;
+		}
+
+		public String getAlias() {
+			return alias;
+		}
+		
+	}
+	
+	public class Select {
+		
+		private String path;
+		private String alias;
+
+		public Select(String path, String alias) {
+			this.path = path;
+			this.alias = alias;
+		}
+
+		public String getPath() {
+			return path;
+		}
+
+		public String getAlias() {
+			return alias;
+		}
 	}
 
 }

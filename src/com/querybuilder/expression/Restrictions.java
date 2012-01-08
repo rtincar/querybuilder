@@ -3,43 +3,39 @@ package com.querybuilder.expression;
 public class Restrictions {
 
 	
-	public static final ConditionExpression eq(String prop, Object val) {
+	public static final ConditionExpression eq(String prop, Expression val) {
 		return new SimpleCondition(prop + " = ?", val);
 	}
 	
-	public static final ConditionExpression neq(String prop, Object val) {
+	public static final ConditionExpression neq(String prop, Expression val) {
 		return new SimpleCondition(prop + " != ?", val);
 	}
 	
-	public static final ConditionExpression gt(String prop, Object val) {
+	public static final ConditionExpression gt(String prop, Expression val) {
 		return new SimpleCondition(prop + " > ?", val);
 	}
 	
-	public static final ConditionExpression ge(String prop, Object val) {
+	public static final ConditionExpression ge(String prop, Expression val) {
 		return new SimpleCondition(prop + " >= ?", val);
 	}
 	
-	public static final ConditionExpression lt(String prop, Object val) {
+	public static final ConditionExpression lt(String prop, Expression val) {
 		return new SimpleCondition(prop + " < ?", val);
 	}
 	
-	public static final ConditionExpression le(String prop, Object val) {
+	public static final ConditionExpression le(String prop, Expression val) {
 		return new SimpleCondition(prop + " <= ?", val);
 	}
 	
-	public static final ConditionExpression between(String prop, Object val1, Object val2) {
-		return new SimpleCondition(prop + " between ? and ?", new Object[]{val1, val2});
+	public static final ConditionExpression between(String prop, Expression val1, Expression val2) {
+		return new SimpleCondition(prop + " between ? and ?", new Expression[]{val1, val2});
 	}
 	
-	public static final ConditionExpression notbetween(String prop, Object val1, Object val2) {
-		return new SimpleCondition(prop + " not between ? and ?", new Object[]{val1, val2});
-	}
-	
-	public static final ConditionExpression in(String prop, Object...val) {
+	public static final ConditionExpression in(String prop, Expression...val) {
 		return new SimpleCondition(prop + " in ( ? )", val);
 	}
 	
-	public static final ConditionExpression nin(String prop, Object...val) {
+	public static final ConditionExpression notin(String prop, Expression...val) {
 		return new SimpleCondition(prop + " not in ( ? )", val);
 	}
 	
@@ -51,19 +47,19 @@ public class Restrictions {
 		return new SimpleCondition(prop + " is not null");
 	}
 	
-	public static final ConditionExpression like(String prop, String value) {
+	public static final ConditionExpression like(String prop, Expression value) {
 		return new SimpleCondition(prop + " like '%'||?||'%'", value);
 	}
 	
-	public static final ConditionExpression ilike(String prop, String value) {
+	public static final ConditionExpression ilike(String prop, Expression value) {
 		return new SimpleCondition("lower(" + prop + ") like lower('%'||?||'%')", value);
 	}
 	
-	public static final ConditionExpression notlike(String prop, String value) {
+	public static final ConditionExpression notlike(String prop, Expression value) {
 		return new SimpleCondition(prop + " not like '%'||?||'%'", value);
 	}
 	
-	public static final ConditionExpression notilike(String prop, String value) {
+	public static final ConditionExpression notilike(String prop, Expression value) {
 		return new SimpleCondition("lower(" + prop + ") not like lower('%'||?||'%')", value);
 	}
 	

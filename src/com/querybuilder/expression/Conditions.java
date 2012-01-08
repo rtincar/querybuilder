@@ -8,7 +8,7 @@ package com.querybuilder.expression;
  */
 public class Conditions {
 	
-	public static SimpleCondition one(String condition, Object...args) {
+	public static SimpleCondition one(String condition, Expression...args) {
 		return new SimpleCondition(condition, args);
 	}
 	

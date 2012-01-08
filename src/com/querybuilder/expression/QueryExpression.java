@@ -3,11 +3,20 @@ package com.querybuilder.expression;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class QueryExpression implements Expression {
+public class QueryExpression extends ParametrizedExpression {
 	
-	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
+	private Map<String, Object> parameters = new LinkedHashMap<String, Object>();
 	private Integer firsResult;
 	private Integer maxResults;
+	private QueryObject qo;
+
+	public QueryExpression() {
+		super();
+	}
+	
+	public QueryExpression(QueryObject qo) {
+		this.qo = qo;
+	}
 
 	public String parse(QueryObject queryObject) {
 		firsResult = queryObject.getFirst();
@@ -19,13 +28,15 @@ public class QueryExpression implements Expression {
 		sb.append(new WhereExpression().parse(queryObject));
 		sb.append(new GroupExpression().parse(queryObject));
 		sb.append(new HavingExpression().parse(queryObject));
-		parameterMap.putAll(queryObject.getParameterMap());
+		sb.append(new OrderExpression().parse(queryObject));
+		parameters.putAll(queryObject.getParameterMap());
 		return sanitizeEmptySpaces(sb.toString());
 	}
 	
-	public Map<String, Object> getParameterMap() {
-		return parameterMap;
+	public String parse() {
+		return parse(qo);
 	}
+	
 	
 	public Integer getFirstResult() {
 		return firsResult;
@@ -37,6 +48,11 @@ public class QueryExpression implements Expression {
 	
 	protected String sanitizeEmptySpaces(String s) {
 		return s.replaceAll("\\s+", " ");
+	}
+
+	@Override
+	public Map<String, Object> getParameters() {
+		return parameters;
 	}
 
 }

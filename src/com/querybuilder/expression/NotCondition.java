@@ -21,7 +21,7 @@ public class NotCondition extends ConditionExpression {
 	public String parse(QueryObject queryObject) {
 		String parse = condition.parse(queryObject);
 		parameterMap.putAll(condition.getParameters());
-		return "!( " + parse + ")";
+		return " !( " + parse + " ) ";
 	}
 
 }

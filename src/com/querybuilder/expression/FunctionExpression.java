@@ -5,55 +5,53 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 
-public class SimpleCondition extends ConditionExpression {
+/**
+ * Esta expresion representa una funcion
+ * 
+ * @author rtincar
+ *
+ */
+public class FunctionExpression extends ParametrizedExpression {
 	
-	private String condition;
+	private String function;
 	private Expression[] expressions;
-	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>(0);
+	private Map<String, Object> parameters = new LinkedHashMap<String, Object>(0);
 
-	public SimpleCondition(String condition, Expression...expressions) {
-		this.condition = condition;
+	public FunctionExpression(String function, Expression...expressions) {
+		this.function = function;
 		this.expressions = expressions;
-	}
-
-	@Override
-	public Map<String, Object> getParameters() {
-		return parameterMap;
 	}
 
 	public String parse(QueryObject queryObject) {
 		StringBuilder sb = new StringBuilder();
 		if (expressions != null) {
-			checkNumberOfArguments(condition, expressions.length);
-			StringTokenizer tokens = new StringTokenizer(condition, PARAM_PLACEHOLDER, true);
+			checkNumberOfArguments(function, expressions.length);
+			StringTokenizer tokens = new StringTokenizer(function, PARAM_PLACEHOLDER, true);
 			int cont = 0;
+			int paramIndex = queryObject.getStartParamIndex();
 			while (tokens.hasMoreTokens()) {
 				String s = tokens.nextToken();
 				if (s.equals(PARAM_PLACEHOLDER)) {
-					Expression arg = expressions[cont];
-					if (arg instanceof QueryExpression) {
-						QueryExpression qe = (QueryExpression) arg;
-						sb.append(" ( ").append(qe.parse()).append(" ) ");
-						parameterMap.putAll(qe.getParameters());
-					} else if (arg instanceof ParametrizedExpression) {
-						ParametrizedExpression pexp = (ParametrizedExpression) arg;
+					Expression exp = expressions[cont];
+					if (exp instanceof ParametrizedExpression) {
+						ParametrizedExpression pexp = (ParametrizedExpression) exp;
 						sb.append(pexp.parse(queryObject));
-						parameterMap.putAll(pexp.getParameters());
+						parameters.putAll(pexp.getParameters());
 					} else {
-						sb.append(arg.parse(queryObject));
+						sb.append(exp.parse(queryObject));
 					}
 					cont++;
 				} else {
 					sb.append(s);
 				}
 			}
+			queryObject.setStartParamIndex(paramIndex);
 		} else {
-			sb.append(condition);
+			sb.append(function);
 		}
 		return sb.toString();
 	}
-
-
+	
 	/**
 	 * Comprueba que el numero de argumentos coincide con el numero de
 	 * parametros esperados por la expresion. Si no es asi lanza una excepcion.
@@ -73,4 +71,8 @@ public class SimpleCondition extends ConditionExpression {
 							+ "con el numero de argumentos");
 	}
 
+	@Override
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
 }

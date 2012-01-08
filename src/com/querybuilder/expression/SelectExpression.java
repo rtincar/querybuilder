@@ -1,19 +1,22 @@
 package com.querybuilder.expression;
 
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
+
+import com.querybuilder.expression.QueryObject.Select;
 
 public class SelectExpression implements Expression {
 	
 	public String parse(QueryObject queryObject) {
-		Map<String, String> selectionMap = queryObject.getSelects();
+		List<Select> selects = queryObject.getSelects();
 		StringBuilder sb = new StringBuilder();
-		if (!selectionMap.isEmpty()) {
+		if (!selects.isEmpty()) {
 			sb.append("select ");
-			Iterator<String> iterator = selectionMap.keySet().iterator();
-			while (iterator.hasNext()) {
-				String next = iterator.next();
-				sb.append(next).append(" as ").append(selectionMap.get(next));
+			for (Iterator<Select> iterator = selects.iterator(); iterator
+					.hasNext();) {
+				Select next = iterator.next();
+				sb.append(next.getPath()).append(" as ")
+						.append(next.getAlias());
 				if (iterator.hasNext()) {
 					sb.append(", ");
 				}
