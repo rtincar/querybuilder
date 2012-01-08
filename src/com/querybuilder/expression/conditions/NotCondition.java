@@ -1,7 +1,9 @@
-package com.querybuilder.expression;
+package com.querybuilder.expression.conditions;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.querybuilder.expression.QueryObject;
 
 public class NotCondition extends ConditionExpression {
 	

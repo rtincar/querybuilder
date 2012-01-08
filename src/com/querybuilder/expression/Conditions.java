@@ -1,5 +1,10 @@
 package com.querybuilder.expression;
 
+import com.querybuilder.expression.conditions.AllCondition;
+import com.querybuilder.expression.conditions.AnyCondition;
+import com.querybuilder.expression.conditions.ConditionExpression;
+import com.querybuilder.expression.conditions.SimpleCondition;
+
 /**
  * Simple builder para crear condiciones
  * 

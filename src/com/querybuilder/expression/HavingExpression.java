@@ -3,6 +3,8 @@ package com.querybuilder.expression;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.querybuilder.expression.conditions.ConditionExpression;
+
 public class HavingExpression implements Expression {
 
 	public String parse(QueryObject queryObject) {

@@ -5,11 +5,11 @@ import static com.querybuilder.expression.ExpressionFactory.*;
 import java.util.Map;
 
 import com.querybuilder.clausules.Any;
-import com.querybuilder.expression.AllCondition;
-import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.QueryCreator;
 import com.querybuilder.expression.QueryExpression;
 import com.querybuilder.expression.QueryObject.JoinType;
+import com.querybuilder.expression.conditions.AllCondition;
+import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class ConditionsTest {
 

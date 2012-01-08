@@ -1,10 +1,12 @@
-package com.querybuilder.expression;
+package com.querybuilder.expression.conditions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.querybuilder.expression.QueryObject;
 
 public abstract class MultipleCondition extends ConditionExpression {
 	

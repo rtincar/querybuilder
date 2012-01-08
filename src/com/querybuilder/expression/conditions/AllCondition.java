@@ -1,4 +1,4 @@
-package com.querybuilder.expression;
+package com.querybuilder.expression.conditions;
 
 public class AllCondition extends MultipleCondition {
 

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import com.querybuilder.expression.QueryObject.From;
 import com.querybuilder.expression.QueryObject.Join;
 import com.querybuilder.expression.QueryObject.Select;
+import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class QueryCreator {
 	
