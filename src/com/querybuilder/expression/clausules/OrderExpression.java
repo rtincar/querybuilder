@@ -1,4 +1,7 @@
-package com.querybuilder.expression;
+package com.querybuilder.expression.clausules;
+
+import com.querybuilder.expression.Expression;
+import com.querybuilder.expression.QueryObject;
 
 public class OrderExpression implements Expression{
 

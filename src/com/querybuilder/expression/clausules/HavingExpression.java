@@ -1,8 +1,10 @@
-package com.querybuilder.expression;
+package com.querybuilder.expression.clausules;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import com.querybuilder.expression.Expression;
+import com.querybuilder.expression.QueryObject;
 import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class HavingExpression implements Expression {
