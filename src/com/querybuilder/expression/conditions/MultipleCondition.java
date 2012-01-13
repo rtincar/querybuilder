@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.querybuilder.expression.QueryObject;
+import com.querybuilder.QueryObject;
 
 public abstract class MultipleCondition extends ConditionExpression {
 	

@@ -1,5 +1,6 @@
 package com.querybuilder.expression;
 
+import com.querybuilder.QueryObject;
 import com.querybuilder.expression.conditions.AllCondition;
 import com.querybuilder.expression.conditions.AnyCondition;
 import com.querybuilder.expression.conditions.ConditionExpression;

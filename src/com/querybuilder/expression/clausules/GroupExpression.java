@@ -1,7 +1,7 @@
 package com.querybuilder.expression.clausules;
 
+import com.querybuilder.QueryObject;
 import com.querybuilder.expression.Expression;
-import com.querybuilder.expression.QueryObject;
 
 public class GroupExpression implements Expression {
 

@@ -3,6 +3,8 @@ package com.querybuilder.expression;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.querybuilder.QueryObject;
+
 /**
  * Esta expresion representa un parametro de la consulta
  * 

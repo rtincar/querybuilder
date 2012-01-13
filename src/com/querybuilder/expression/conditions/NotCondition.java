@@ -3,7 +3,7 @@ package com.querybuilder.expression.conditions;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.querybuilder.expression.QueryObject;
+import com.querybuilder.QueryObject;
 
 public class NotCondition extends ConditionExpression {
 	

@@ -3,6 +3,7 @@ package com.querybuilder.expression;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.querybuilder.QueryObject;
 import com.querybuilder.expression.clausules.FromExpression;
 import com.querybuilder.expression.clausules.GroupExpression;
 import com.querybuilder.expression.clausules.HavingExpression;

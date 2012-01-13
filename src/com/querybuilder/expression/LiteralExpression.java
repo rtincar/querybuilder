@@ -1,5 +1,7 @@
 package com.querybuilder.expression;
 
+import com.querybuilder.QueryObject;
+
 public class LiteralExpression implements Expression {
 	
 	private String literal;

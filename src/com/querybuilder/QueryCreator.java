@@ -1,4 +1,4 @@
-package com.querybuilder.expression;
+package com.querybuilder;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.querybuilder.expression.QueryObject.From;
-import com.querybuilder.expression.QueryObject.Join;
-import com.querybuilder.expression.QueryObject.Select;
+import com.querybuilder.QueryObject.From;
+import com.querybuilder.QueryObject.Join;
+import com.querybuilder.QueryObject.Select;
+import com.querybuilder.expression.ExpressionFactory;
+import com.querybuilder.expression.QueryExpression;
 import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class QueryCreator {

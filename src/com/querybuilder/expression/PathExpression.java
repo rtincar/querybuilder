@@ -1,5 +1,7 @@
 package com.querybuilder.expression;
 
+import com.querybuilder.QueryObject;
+
 /**
  * Esta expresion representa una ruta dentro del grafo de objetos
  * de la consulta, es decir, una propiedad

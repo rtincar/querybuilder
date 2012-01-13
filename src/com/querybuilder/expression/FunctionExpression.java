@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 
+import com.querybuilder.QueryObject;
+
 /**
  * Esta expresion representa una funcion
  * 
