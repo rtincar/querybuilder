@@ -1,35 +1,30 @@
-package com.querybuilder.expression;
+package com.querybuilder;
 
-import com.querybuilder.QueryObject;
+public class Select implements java.io.Serializable {
 
-/**
- * Esta expresion representa una ruta dentro del grafo de objetos
- * de la consulta, es decir, una propiedad
- * 
- * 
- * @author rtincar
- *
- */
-public class PathExpression implements Expression {
-	
+	private static final long serialVersionUID = 1L;
+
 	private String path;
+	private String alias;
 
-	public PathExpression(String path) {
+	public Select(String path, String alias) {
 		this.path = path;
+		this.alias = alias;
 	}
 
-	public String parse(QueryObject queryObject) {
-		return this.path;
-	}
-
-	public String getExpression() {
+	public String getPath() {
 		return path;
+	}
+
+	public String getAlias() {
+		return alias;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		return result;
 	}
@@ -42,7 +37,12 @@ public class PathExpression implements Expression {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PathExpression other = (PathExpression) obj;
+		Select other = (Select) obj;
+		if (alias == null) {
+			if (other.alias != null)
+				return false;
+		} else if (!alias.equals(other.alias))
+			return false;
 		if (path == null) {
 			if (other.path != null)
 				return false;
@@ -52,5 +52,4 @@ public class PathExpression implements Expression {
 	}
 	
 	
-
 }

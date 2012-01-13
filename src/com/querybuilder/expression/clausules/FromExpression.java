@@ -3,8 +3,8 @@ package com.querybuilder.expression.clausules;
 import java.util.Iterator;
 import java.util.List;
 
+import com.querybuilder.From;
 import com.querybuilder.QueryObject;
-import com.querybuilder.QueryObject.From;
 import com.querybuilder.expression.Expression;
 
 public class FromExpression implements Expression {
@@ -27,5 +27,12 @@ public class FromExpression implements Expression {
 		}
 		return sb.toString();
 	}
+
+	public String getExpression() {
+		// TODO Auto-generated method stub
+		return "from ? ";
+	}
+	
+	
 
 }

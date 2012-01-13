@@ -1,9 +1,11 @@
 package com.querybuilder.expression;
 
+import com.querybuilder.From;
+import com.querybuilder.Join;
 import com.querybuilder.QueryObject;
+import com.querybuilder.Select;
 import com.querybuilder.expression.conditions.AllCondition;
 import com.querybuilder.expression.conditions.AnyCondition;
-import com.querybuilder.expression.conditions.ConditionExpression;
 import com.querybuilder.expression.conditions.NotCondition;
 import com.querybuilder.expression.conditions.SimpleCondition;
 
@@ -221,20 +223,20 @@ public class ExpressionFactory {
 		return new ValueExpression(value);
 	}
 	
-	public static final QueryObject.Select get(Expression exp, String alias) {
-		return new QueryObject().new Select(exp.parse(null), alias);
+	public static final Select get(Expression exp, String alias) {
+		return new Select(exp.parse(null), alias);
 	}
 	
-	public static final QueryObject.Select get(String exp, String alias) {
+	public static final Select get(String exp, String alias) {
 		return get(new PathExpression(exp), alias);
 	}
 	
-	public static final QueryObject.From entity(Class<?> clazz, String alias) {
-		return new QueryObject().new From(clazz, alias);
+	public static final From entity(Class<?> clazz, String alias) {
+		return new From(clazz, alias);
 	}
 	
-	public static final QueryObject.Join joinTo(String path, String alias, QueryObject.JoinType type) {
-		return new QueryObject().new Join(path, alias, type);
+	public static final Join joinTo(String path, String alias, QueryObject.JoinType type) {
+		return new Join(path, alias, type);
 	}
 
 }

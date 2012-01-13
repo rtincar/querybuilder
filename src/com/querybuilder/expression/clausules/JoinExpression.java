@@ -3,8 +3,8 @@ package com.querybuilder.expression.clausules;
 import java.util.Iterator;
 import java.util.List;
 
+import com.querybuilder.Join;
 import com.querybuilder.QueryObject;
-import com.querybuilder.QueryObject.Join;
 import com.querybuilder.expression.Expression;
 
 public class JoinExpression implements Expression {
@@ -35,5 +35,11 @@ public class JoinExpression implements Expression {
 		}
 		return sb.toString();
 	}
+
+	public String getExpression() {
+		return " ? join ? ";
+	}
+	
+	
 
 }

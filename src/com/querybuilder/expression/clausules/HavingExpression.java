@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.querybuilder.QueryObject;
+import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.Expression;
-import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class HavingExpression implements Expression {
 
@@ -27,5 +27,12 @@ public class HavingExpression implements Expression {
 		}
 		return sb.toString();
 	}
+
+	public String getExpression() {
+		// TODO Auto-generated method stub
+		return " having ( ? ) ";
+	}
+	
+	
 
 }

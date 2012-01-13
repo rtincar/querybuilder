@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.querybuilder.QueryObject;
+import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.Expression;
-import com.querybuilder.expression.conditions.ConditionExpression;
 
 public class WhereExpression implements Expression {
 
@@ -27,5 +27,11 @@ public class WhereExpression implements Expression {
 		sb.append(" ) ");
 		return sb.toString();
 	}
+
+	public String getExpression() {
+		return " where ( ? ) ";
+	}
+	
+	
 
 }

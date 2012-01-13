@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.querybuilder.QueryObject;
-import com.querybuilder.QueryObject.Select;
+import com.querybuilder.Select;
 import com.querybuilder.expression.Expression;
 
 public class SelectExpression implements Expression {
@@ -27,6 +27,13 @@ public class SelectExpression implements Expression {
 		}
 		return sb.toString();
 	}
+
+	public String getExpression() {
+		// TODO Auto-generated method stub
+		return "select ? ";
+	}
+	
+	
 
 
 }

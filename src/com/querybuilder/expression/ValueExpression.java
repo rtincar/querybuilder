@@ -42,4 +42,10 @@ public class ValueExpression extends ParametrizedExpression {
 		return parameters;
 	}
 
+	public String getExpression() {
+		return " ? ";
+	}
+	
+	
+
 }

@@ -1,11 +1,13 @@
 package com.querybuilder.expression.conditions;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 
 import com.querybuilder.QueryObject;
+import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.Expression;
 import com.querybuilder.expression.ParametrizedExpression;
 import com.querybuilder.expression.QueryExpression;
@@ -77,5 +79,48 @@ public class SimpleCondition extends ConditionExpression {
 					"El numero de parametros no coincide "
 							+ "con el numero de argumentos");
 	}
+
+	public String getExpression() {
+		return condition;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((condition == null) ? 0 : condition.hashCode());
+		result = prime * result + Arrays.hashCode(expressions);
+		result = prime * result
+				+ ((parameterMap == null) ? 0 : parameterMap.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleCondition other = (SimpleCondition) obj;
+		if (condition == null) {
+			if (other.condition != null)
+				return false;
+		} else if (!condition.equals(other.condition))
+			return false;
+		if (!Arrays.equals(expressions, other.expressions))
+			return false;
+		if (parameterMap == null) {
+			if (other.parameterMap != null)
+				return false;
+		} else if (!parameterMap.equals(other.parameterMap))
+			return false;
+		return true;
+	}
+	
+	
+	
 
 }

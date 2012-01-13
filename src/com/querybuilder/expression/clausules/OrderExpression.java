@@ -14,4 +14,10 @@ public class OrderExpression implements Expression{
 		}
 	}
 
+	public String getExpression() {
+		return " order by ? ";
+	}
+	
+	
+
 }
