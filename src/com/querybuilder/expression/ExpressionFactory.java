@@ -20,108 +20,108 @@ public class ExpressionFactory {
 	
 	/************ EXPRESIONES DE CONDICIONES *************************/
 	
-	public static final ConditionExpression eq(String prop, Expression val) {
+	public static final SimpleCondition eq(String prop, Expression val) {
 		return new SimpleCondition(prop + " = ?", val);
 	}
 	
-	public static final ConditionExpression neq(String prop, Expression val) {
+	public static final SimpleCondition neq(String prop, Expression val) {
 		return new SimpleCondition(prop + " != ?", val);
 	}
 	
-	public static final ConditionExpression gt(String prop, Expression val) {
+	public static final SimpleCondition gt(String prop, Expression val) {
 		return new SimpleCondition(prop + " > ?", val);
 	}
 	
-	public static final ConditionExpression ge(String prop, Expression val) {
+	public static final SimpleCondition ge(String prop, Expression val) {
 		return new SimpleCondition(prop + " >= ?", val);
 	}
 	
-	public static final ConditionExpression lt(String prop, Expression val) {
+	public static final SimpleCondition lt(String prop, Expression val) {
 		return new SimpleCondition(prop + " < ?", val);
 	}
 	
-	public static final ConditionExpression le(String prop, Expression val) {
+	public static final SimpleCondition le(String prop, Expression val) {
 		return new SimpleCondition(prop + " <= ?", val);
 	}
 	
-	public static final ConditionExpression between(String prop, Expression val1, Expression val2) {
+	public static final SimpleCondition between(String prop, Expression val1, Expression val2) {
 		return new SimpleCondition(prop + " between ? and ?", new Expression[]{val1, val2});
 	}
 	
-	public static final ConditionExpression in(String prop, Expression...val) {
+	public static final SimpleCondition in(String prop, Expression...val) {
 		return new SimpleCondition(prop + " in ( ? )", val);
 	}
 	
-	public static final ConditionExpression notin(String prop, Expression...val) {
+	public static final SimpleCondition notin(String prop, Expression...val) {
 		return new SimpleCondition(prop + " not in ( ? )", val);
 	}
 	
-	public static final ConditionExpression isNull(String prop) {
+	public static final SimpleCondition isNull(String prop) {
 		return new SimpleCondition(prop + " is null");
 	}
 	
-	public static final ConditionExpression isNoNull(String prop) {
+	public static final SimpleCondition isNoNull(String prop) {
 		return new SimpleCondition(prop + " is not null");
 	}
 	
-	public static final ConditionExpression like(String prop, Expression value) {
+	public static final SimpleCondition like(String prop, Expression value) {
 		return new SimpleCondition(prop + " like ?", value);
 	}
 	
-	public static final ConditionExpression ilike(String prop, Expression value) {
+	public static final SimpleCondition ilike(String prop, Expression value) {
 		return new SimpleCondition("lower(" + prop + ") like lower(?)", value);
 	}
 	/*  */
 	
-	public static final ConditionExpression eq(String prop, Object val) {
+	public static final SimpleCondition eq(String prop, Object val) {
 		return new SimpleCondition(prop + " = ?", value(val));
 	}
 	
-	public static final ConditionExpression neq(String prop, Object val) {
+	public static final SimpleCondition neq(String prop, Object val) {
 		return new SimpleCondition(prop + " != ?", value(val));
 	}
 	
-	public static final ConditionExpression gt(String prop, Object val) {
+	public static final SimpleCondition gt(String prop, Object val) {
 		return new SimpleCondition(prop + " > ?", value(val));
 	}
 	
-	public static final ConditionExpression ge(String prop, Object val) {
+	public static final SimpleCondition ge(String prop, Object val) {
 		return new SimpleCondition(prop + " >= ?", value(val));
 	}
 	
-	public static final ConditionExpression lt(String prop, Object val) {
+	public static final SimpleCondition lt(String prop, Object val) {
 		return new SimpleCondition(prop + " < ?", value(val));
 	}
 	
-	public static final ConditionExpression le(String prop, Object val) {
+	public static final SimpleCondition le(String prop, Object val) {
 		return new SimpleCondition(prop + " <= ?", value(val));
 	}
 	
-	public static final ConditionExpression between(String prop, Object val1, Object val2) {
+	public static final SimpleCondition between(String prop, Object val1, Object val2) {
 		return new SimpleCondition(prop + " between ? and ?", new Expression[]{value(val1), value(val2)});
 	}
 	
-	public static final ConditionExpression in(String prop, Object...val) {
+	public static final SimpleCondition in(String prop, Object...val) {
 		return new SimpleCondition(prop + " in ( ? )", value(val));
 	}
 	
-	public static final ConditionExpression notin(String prop, Object...val) {
+	public static final SimpleCondition notin(String prop, Object...val) {
 		return new SimpleCondition(prop + " not in ( ? )", value(val));
 	}
 	
-	public static final ConditionExpression like(String prop, Object value) {
+	public static final SimpleCondition like(String prop, Object value) {
 		return new SimpleCondition(prop + " like ?", value(value));
 	}
 	
-	public static final ConditionExpression ilike(String prop, Object value) {
+	public static final SimpleCondition ilike(String prop, Object value) {
 		return new SimpleCondition("lower(" + prop + ") like lower(?)", value(value));
 	}
 	
-	public static final ConditionExpression not(ConditionExpression condition) {
+	public static final NotCondition not(ConditionExpression condition) {
 		return new NotCondition(condition);
 	}
 	
-	public static final ConditionExpression all(ConditionExpression...arg) {
+	public static final AllCondition all(ConditionExpression...arg) {
 		AllCondition a = new AllCondition();
 		for (ConditionExpression c : arg) {
 			a.add(c);
@@ -129,7 +129,7 @@ public class ExpressionFactory {
 		return a;
 	}
 	
-	public static final ConditionExpression any(ConditionExpression...arg) {
+	public static final AnyCondition any(ConditionExpression...arg) {
 		AnyCondition a = new AnyCondition();
 		for (ConditionExpression c : arg) {
 			a.add(c);
@@ -224,7 +224,7 @@ public class ExpressionFactory {
 	}
 	
 	public static final Select get(Expression exp, String alias) {
-		return new Select(exp.parse(null), alias);
+		return new Select(exp.parse(new QueryObject()), alias);
 	}
 	
 	public static final Select get(String exp, String alias) {

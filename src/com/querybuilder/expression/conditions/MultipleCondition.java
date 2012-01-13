@@ -11,8 +11,8 @@ import com.querybuilder.expression.ConditionExpression;
 
 public abstract class MultipleCondition extends ConditionExpression {
 	
-	private List<ConditionExpression> conditions = new ArrayList<ConditionExpression>();
-	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>();
+	private List<ConditionExpression> conditions = new ArrayList<ConditionExpression>(0);
+	private Map<String, Object> parameterMap = new LinkedHashMap<String, Object>(0);
 
 	public List<ConditionExpression> getConditions() {
 		return conditions;
