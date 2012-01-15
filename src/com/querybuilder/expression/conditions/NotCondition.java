@@ -3,8 +3,8 @@ package com.querybuilder.expression.conditions;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.querybuilder.QueryObject;
 import com.querybuilder.expression.ConditionExpression;
+import com.querybuilder.query.QueryObject;
 
 public class NotCondition extends ConditionExpression {
 	

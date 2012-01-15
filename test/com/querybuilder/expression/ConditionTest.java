@@ -7,8 +7,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.querybuilder.QueryObject;
 import com.querybuilder.expression.conditions.SimpleCondition;
+import com.querybuilder.query.QueryObject;
+
 import static org.junit.Assert.*;
 import static com.querybuilder.expression.ExpressionFactory.*;
 

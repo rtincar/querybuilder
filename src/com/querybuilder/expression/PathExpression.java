@@ -1,6 +1,6 @@
 package com.querybuilder.expression;
 
-import com.querybuilder.QueryObject;
+import com.querybuilder.query.QueryObject;
 
 /**
  * Esta expresion representa una ruta dentro del grafo de objetos

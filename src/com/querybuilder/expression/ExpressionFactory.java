@@ -1,13 +1,13 @@
 package com.querybuilder.expression;
 
-import com.querybuilder.From;
-import com.querybuilder.Join;
-import com.querybuilder.QueryObject;
-import com.querybuilder.Select;
 import com.querybuilder.expression.conditions.AllCondition;
 import com.querybuilder.expression.conditions.AnyCondition;
 import com.querybuilder.expression.conditions.NotCondition;
 import com.querybuilder.expression.conditions.SimpleCondition;
+import com.querybuilder.query.From;
+import com.querybuilder.query.Join;
+import com.querybuilder.query.QueryObject;
+import com.querybuilder.query.Select;
 
 
 /**

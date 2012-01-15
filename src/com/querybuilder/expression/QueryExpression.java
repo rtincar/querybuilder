@@ -3,7 +3,6 @@ package com.querybuilder.expression;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.querybuilder.QueryObject;
 import com.querybuilder.expression.clausules.FromExpression;
 import com.querybuilder.expression.clausules.GroupExpression;
 import com.querybuilder.expression.clausules.HavingExpression;
@@ -11,6 +10,7 @@ import com.querybuilder.expression.clausules.JoinExpression;
 import com.querybuilder.expression.clausules.OrderExpression;
 import com.querybuilder.expression.clausules.SelectExpression;
 import com.querybuilder.expression.clausules.WhereExpression;
+import com.querybuilder.query.QueryObject;
 
 public class QueryExpression extends ParametrizedExpression {
 	

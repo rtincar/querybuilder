@@ -1,19 +1,19 @@
-package com.querybuilder;
+package com.querybuilder.query;
 
-public class From implements java.io.Serializable {
+public class Select implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private Class<?> entity;
+
+	private String path;
 	private String alias;
 
-	public From(Class<?> entity, String alias) {
-		this.entity = entity;
+	public Select(String path, String alias) {
+		this.path = path;
 		this.alias = alias;
 	}
 
-	public Class<?> getEntity() {
-		return entity;
+	public String getPath() {
+		return path;
 	}
 
 	public String getAlias() {
@@ -25,7 +25,7 @@ public class From implements java.io.Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
-		result = prime * result + ((entity == null) ? 0 : entity.hashCode());
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		return result;
 	}
 
@@ -37,16 +37,16 @@ public class From implements java.io.Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		From other = (From) obj;
+		Select other = (Select) obj;
 		if (alias == null) {
 			if (other.alias != null)
 				return false;
 		} else if (!alias.equals(other.alias))
 			return false;
-		if (entity == null) {
-			if (other.entity != null)
+		if (path == null) {
+			if (other.path != null)
 				return false;
-		} else if (!entity.equals(other.entity))
+		} else if (!path.equals(other.path))
 			return false;
 		return true;
 	}

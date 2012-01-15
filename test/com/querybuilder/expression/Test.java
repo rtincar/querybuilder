@@ -19,11 +19,11 @@ import static com.querybuilder.expression.ExpressionFactory.sum;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.querybuilder.Join;
 import com.querybuilder.QueryCreator;
-import com.querybuilder.QueryObject;
-import com.querybuilder.QueryObject.JoinType;
 import com.querybuilder.expression.conditions.SimpleCondition;
+import com.querybuilder.query.Join;
+import com.querybuilder.query.QueryObject;
+import com.querybuilder.query.QueryObject.JoinType;
 
 public class Test {
 

@@ -3,9 +3,9 @@ package com.querybuilder.expression.clausules;
 import java.util.Iterator;
 import java.util.List;
 
-import com.querybuilder.QueryObject;
-import com.querybuilder.Select;
 import com.querybuilder.expression.Expression;
+import com.querybuilder.query.QueryObject;
+import com.querybuilder.query.Select;
 
 public class SelectExpression implements Expression {
 	

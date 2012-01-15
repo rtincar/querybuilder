@@ -11,7 +11,11 @@ import javax.persistence.Query;
 import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.ExpressionFactory;
 import com.querybuilder.expression.QueryExpression;
-import com.querybuilder.util.transformer.Transformer;
+import com.querybuilder.query.From;
+import com.querybuilder.query.Join;
+import com.querybuilder.query.QueryObject;
+import com.querybuilder.query.Select;
+import com.querybuilder.transformer.Transformer;
 
 /**
  * Clase con metodos convenientes para generar la consulta y obtner los resultados

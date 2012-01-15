@@ -1,6 +1,6 @@
-package com.querybuilder;
+package com.querybuilder.query;
 
-import com.querybuilder.QueryObject.JoinType;
+import com.querybuilder.query.QueryObject.JoinType;
 
 
 public class Join implements java.io.Serializable {

@@ -1,4 +1,4 @@
-package com.querybuilder;
+package com.querybuilder.query;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

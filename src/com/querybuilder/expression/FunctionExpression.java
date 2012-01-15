@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 
-import com.querybuilder.QueryObject;
+import com.querybuilder.query.QueryObject;
 
 /**
  * Esta expresion representa una funcion

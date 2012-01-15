@@ -1,4 +1,4 @@
-package com.querybuilder.util.transformer;
+package com.querybuilder.transformer;
 
 /**
  * Transforma un objeto de un tipo a otro

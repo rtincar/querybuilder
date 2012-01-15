@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.querybuilder.QueryObject;
 import com.querybuilder.expression.ConditionExpression;
+import com.querybuilder.query.QueryObject;
 
 public abstract class MultipleCondition extends ConditionExpression {
 	
