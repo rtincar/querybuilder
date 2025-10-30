@@ -51,22 +51,6 @@ public class ConditionTest {
 	
 	@Test
 	public void allConditionEquals() {
-		/*ConditionExpression all = all(
-			eq("prop2", 45),
-			in("a.prop3", Arrays.asList(23,24,25)),
-			isNull("prop5"),
-			like("prop6", "jkjks")
-		);
-		
-		ConditionExpression all2 = all(
-			eq("prop2", 45),
-			in("a.prop3", Arrays.asList(23,24,25)),
-			isNull("prop5"),
-			like("prop6", "jkjks")
-		);*/
-		//assertEquals("Las listas de condiciones no son iguales!!!", all, all2);
-		
-		
 		List<Integer> asList1 = Arrays.asList(23,24,25);
 		List<Integer> asList2 = Arrays.asList(23,24,25);
 		Map<String, Object> mapa1 = new LinkedHashMap<String, Object>(0);
@@ -96,17 +80,8 @@ public class ConditionTest {
 		SimpleCondition eq2 = eq("prop2", 45);
 		
 		System.out.println(eq1.equals(eq2));
-		
+
 		System.out.println(in1.equals(in2));
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
 
 }
