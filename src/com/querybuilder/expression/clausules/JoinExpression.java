@@ -19,11 +19,9 @@ public class JoinExpression implements Expression {
 				Join join = iterator.next();
 				if (join.getJoinType().equals(QueryObject.JoinType.INNER)) {
 					sb.append(" inner join ");
-				}
-				if (join.getJoinType().equals(QueryObject.JoinType.LEFT)) {
+				} else if (join.getJoinType().equals(QueryObject.JoinType.LEFT)) {
 					sb.append(" left join ");
-				}
-				if (join.getJoinType().equals(QueryObject.JoinType.FULL)) {
+				} else if (join.getJoinType().equals(QueryObject.JoinType.FULL)) {
 					sb.append(" full join ");
 				}
 				sb.append(join.getPath()).append(" as ").append(join.getAlias());

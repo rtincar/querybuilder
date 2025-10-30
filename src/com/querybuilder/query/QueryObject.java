@@ -9,9 +9,15 @@ import com.querybuilder.expression.ConditionExpression;
 
 /**
  * Representa el objeto Context en el patron Interpreter
- * 
+ *
+ * NOTA IMPORTANTE: Este objeto es mutable y su estado (especialmente startParamIndex)
+ * cambia durante el parsing. Por lo tanto:
+ * - NO reutilice el mismo QueryObject para múltiples operaciones de parsing
+ * - NO use el mismo QueryObject desde múltiples hilos simultáneamente
+ * - Cree un nuevo QueryCreator para cada consulta independiente
+ *
  * @author rtincar
- * 
+ *
  */
 public class QueryObject implements java.io.Serializable {
 

@@ -19,8 +19,10 @@ public class HavingExpression implements Expression {
 			Iterator<ConditionExpression> iterator = queryObject.getHavings().iterator();
 			while (iterator.hasNext()) {
 				ConditionExpression next = iterator.next();
-				sb.append(next.parse(queryObject)).append(" ").append(op).append(
-				" ");
+				sb.append(next.parse(queryObject));
+				if (iterator.hasNext()) {
+					sb.append(" ").append(op).append(" ");
+				}
 				parameterMap.putAll(next.getParameters());
 			}
 			sb.append(" ) ");
@@ -29,7 +31,6 @@ public class HavingExpression implements Expression {
 	}
 
 	public String getExpression() {
-		// TODO Auto-generated method stub
 		return " having ( ? ) ";
 	}
 	
