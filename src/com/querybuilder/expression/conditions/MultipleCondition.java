@@ -47,7 +47,6 @@ public abstract class MultipleCondition extends ConditionExpression {
 	protected abstract String getOp();
 
 	public String getExpression() {
-		// TODO Auto-generated method stub
 		return " ( ? ) ";
 	}
 

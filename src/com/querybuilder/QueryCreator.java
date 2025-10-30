@@ -279,20 +279,13 @@ public class QueryCreator {
 		if (group == null || group.length == 0) {
 			throw new IllegalArgumentException("Debe proporcionar al menos un campo para agrupar");
 		}
-		StringBuilder sb = new StringBuilder();
-		for (Iterator<String> iterator = Arrays.asList(group).iterator(); iterator
-				.hasNext();) {
-			sb.append(iterator.next());
-			if (iterator.hasNext()) {
-				sb.append(", ");
-			}
-		}
+		String newGroupBy = joinWithCommas(group);
 		if (queryObject.getGroupBy() != null
 				&& queryObject.getGroupBy().length() > 0) {
 			String current = queryObject.getGroupBy();
-			queryObject.setGroupBy(current + ", " + sb.toString());
+			queryObject.setGroupBy(current + ", " + newGroupBy);
 		} else {
-			queryObject.setGroupBy(sb.toString());
+			queryObject.setGroupBy(newGroupBy);
 		}
 		return this;
 	}
@@ -349,20 +342,13 @@ public class QueryCreator {
 		if (order == null || order.length == 0) {
 			throw new IllegalArgumentException("Debe proporcionar al menos un campo para ordenar");
 		}
-		StringBuilder sb = new StringBuilder();
-		for (Iterator<String> iterator = Arrays.asList(order).iterator(); iterator
-				.hasNext();) {
-			sb.append(iterator.next());
-			if (iterator.hasNext()) {
-				sb.append(", ");
-			}
-		}
+		String newOrderBy = joinWithCommas(order);
 		if (queryObject.getOrderBy() != null
 				&& queryObject.getOrderBy().length() > 0) {
 			String current = queryObject.getOrderBy();
-			queryObject.setOrderBy(current + ", " + sb.toString());
+			queryObject.setOrderBy(current + ", " + newOrderBy);
 		} else {
-			queryObject.setOrderBy(sb.toString());
+			queryObject.setOrderBy(newOrderBy);
 		}
 		return this;
 	}
@@ -413,6 +399,23 @@ public class QueryCreator {
 		}
 		queryObject.setMax(limit);
 		return this;
+	}
+
+	/**
+	 * Método helper que concatena un array de strings con separador de coma
+	 *
+	 * @param values Array de strings a concatenar
+	 * @return String con valores separados por ", "
+	 */
+	private String joinWithCommas(String... values) {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<String> iterator = Arrays.asList(values).iterator(); iterator.hasNext();) {
+			sb.append(iterator.next());
+			if (iterator.hasNext()) {
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
 	}
 
 }

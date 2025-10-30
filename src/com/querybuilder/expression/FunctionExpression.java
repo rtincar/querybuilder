@@ -31,7 +31,6 @@ public class FunctionExpression extends ParametrizedExpression {
 			checkNumberOfArguments(function, expressions.length);
 			StringTokenizer tokens = new StringTokenizer(function, PARAM_PLACEHOLDER, true);
 			int cont = 0;
-			//int paramIndex = queryObject.getStartParamIndex();
 			while (tokens.hasMoreTokens()) {
 				String s = tokens.nextToken();
 				if (s.equals(PARAM_PLACEHOLDER)) {
@@ -48,7 +47,6 @@ public class FunctionExpression extends ParametrizedExpression {
 					sb.append(s);
 				}
 			}
-			//queryObject.setStartParamIndex(paramIndex);
 		} else {
 			sb.append(function);
 		}
