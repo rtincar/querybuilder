@@ -18,11 +18,33 @@ import com.querybuilder.query.Select;
 import com.querybuilder.transformer.Transformer;
 
 /**
- * Clase con metodos convenientes para generar la consulta y obtner los resultados
- * 
- * 
- * @author rtincar
+ * API fluida para construir consultas JPA-QL de forma programática.
  *
+ * <h3>Patrón de Uso</h3>
+ * QueryCreator proporciona una interfaz fluida (método chaining) para construir
+ * consultas dinámicas de forma type-safe. El QueryObject subyacente está protegido
+ * contra modificaciones externas mediante vistas inmutables.
+ *
+ * <h3>Ejemplo de Uso</h3>
+ * <pre>{@code
+ * QueryCreator qc = QueryCreator.init(entityManager);
+ * List<Usuario> usuarios = qc
+ *     .select(get(path("u.nombre"), "nombre"), get(path("u.email"), "email"))
+ *     .from(entity(Usuario.class, "u"))
+ *     .whereAll(
+ *         eq("u.activo", true),
+ *         gt("u.edad", 18)
+ *     )
+ *     .orderBy("u.nombre asc")
+ *     .all();
+ * }</pre>
+ *
+ * <h3>Thread-Safety</h3>
+ * QueryCreator NO es thread-safe. Cree una nueva instancia para cada consulta.
+ *
+ * @author rtincar
+ * @see QueryObject
+ * @see ExpressionFactory
  */
 public class QueryCreator {
 
@@ -186,7 +208,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Los elementos select no pueden ser nulos");
 			}
 		}
-		queryObject.getSelects().addAll(Arrays.asList(selects));
+		queryObject.getSelectsInternal().addAll(Arrays.asList(selects));
 		return this;
 	}
 
@@ -205,7 +227,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Los elementos from no pueden ser nulos");
 			}
 		}
-		queryObject.getFroms().addAll(Arrays.asList(froms));
+		queryObject.getFromsInternal().addAll(Arrays.asList(froms));
 		return this;
 	}
 
@@ -224,7 +246,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Los elementos join no pueden ser nulos");
 			}
 		}
-		queryObject.getJoins().addAll(Arrays.asList(joins));
+		queryObject.getJoinsInternal().addAll(Arrays.asList(joins));
 		return this;
 	}
 
@@ -244,7 +266,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Las condiciones no pueden ser nulas");
 			}
 		}
-		queryObject.getConditions().add(ExpressionFactory.all(conditions));
+		queryObject.getConditionsInternal().add(ExpressionFactory.all(conditions));
 		return this;
 	}
 
@@ -265,7 +287,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Las condiciones no pueden ser nulas");
 			}
 		}
-		queryObject.getConditions().add(ExpressionFactory.any(conditions));
+		queryObject.getConditionsInternal().add(ExpressionFactory.any(conditions));
 		return this;
 	}
 
@@ -306,7 +328,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Las condiciones having no pueden ser nulas");
 			}
 		}
-		queryObject.getHavings()
+		queryObject.getHavingsInternal()
 				.add(ExpressionFactory.all(conditionExpression));
 		return this;
 	}
@@ -327,7 +349,7 @@ public class QueryCreator {
 				throw new IllegalArgumentException("Las condiciones having no pueden ser nulas");
 			}
 		}
-		queryObject.getHavings()
+		queryObject.getHavingsInternal()
 				.add(ExpressionFactory.any(conditionExpression));
 		return this;
 	}

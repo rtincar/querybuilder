@@ -1,7 +1,6 @@
 package com.querybuilder.expression.clausules;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.Expression;
@@ -10,7 +9,6 @@ import com.querybuilder.query.QueryObject;
 public class WhereExpression implements Expression {
 
 	public String parse(QueryObject queryObject) {
-		Map<String, Object> parameterMap = queryObject.getParameterMap();
 		StringBuilder sb = new StringBuilder();
 		if (!queryObject.getConditions().isEmpty()) {
 			sb.append(" where ( ");
@@ -23,7 +21,7 @@ public class WhereExpression implements Expression {
 				if (iterator.hasNext()) {
 					sb.append(" ").append(op).append(" ");
 				}
-				parameterMap.putAll(next.getParameters());
+				queryObject.addAllParameters(next.getParameters());
 			}
 			sb.append(" ) ");
 		}
