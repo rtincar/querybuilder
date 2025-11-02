@@ -1,6 +1,7 @@
 package com.querybuilder.query;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +10,35 @@ import com.querybuilder.expression.ConditionExpression;
 
 /**
  * Representa el objeto Context en el patron Interpreter
- * 
+ *
+ * <h3>Encapsulamiento y Protección de Datos</h3>
+ * Los getters públicos retornan vistas inmutables (Collections.unmodifiable*) para
+ * prevenir modificaciones externas del estado interno. Para modificar las colecciones,
+ * use QueryCreator o los métodos addParameter/addAllParameters.
+ *
+ * <h3>Patrón de Uso Correcto</h3>
+ * <pre>{@code
+ * // Correcto: Usar QueryCreator
+ * QueryCreator qc = QueryCreator.init(entityManager);
+ * qc.select(...).from(...).whereAll(...);
+ * List<T> results = qc.all();
+ *
+ * // Incorrecto: Modificar directamente
+ * QueryObject qo = qc.getQueryObject();
+ * qo.getSelects().add(select); // Lanza UnsupportedOperationException
+ * }</pre>
+ *
+ * <h3>Limitaciones de Concurrencia y Reutilización</h3>
+ * IMPORTANTE: Este objeto es mutable y su estado (especialmente startParamIndex)
+ * cambia durante el parsing. Por lo tanto:
+ * <ul>
+ *   <li>NO reutilice el mismo QueryObject para múltiples operaciones de parsing</li>
+ *   <li>NO use el mismo QueryObject desde múltiples hilos simultáneamente</li>
+ *   <li>Cree un nuevo QueryCreator para cada consulta independiente</li>
+ * </ul>
+ *
  * @author rtincar
- * 
+ *
  */
 public class QueryObject implements java.io.Serializable {
 
@@ -42,7 +69,23 @@ public class QueryObject implements java.io.Serializable {
 	private Integer max;
 	private QueryObject.ConditionEvaluationMode conditionEvaluationMode = QueryObject.ConditionEvaluationMode.ALL;
 
+	/**
+	 * Retorna una vista inmutable de la lista de selects.
+	 * Para modificar, use getSelectsInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable de selects
+	 */
 	public List<Select> getSelects() {
+		return Collections.unmodifiableList(selects);
+	}
+
+	/**
+	 * Acceso interno a la lista mutable de selects (package-private).
+	 * Solo para uso de QueryCreator y clases del mismo paquete.
+	 *
+	 * @return Lista mutable de selects
+	 */
+	List<Select> getSelectsInternal() {
 		return selects;
 	}
 
@@ -50,7 +93,23 @@ public class QueryObject implements java.io.Serializable {
 		this.selects = selects;
 	}
 
+	/**
+	 * Retorna una vista inmutable de la lista de froms.
+	 * Para modificar, use getFromsInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable de froms
+	 */
 	public List<From> getFroms() {
+		return Collections.unmodifiableList(froms);
+	}
+
+	/**
+	 * Acceso interno a la lista mutable de froms (package-private).
+	 * Solo para uso de QueryCreator y clases del mismo paquete.
+	 *
+	 * @return Lista mutable de froms
+	 */
+	List<From> getFromsInternal() {
 		return froms;
 	}
 
@@ -58,7 +117,23 @@ public class QueryObject implements java.io.Serializable {
 		this.froms = froms;
 	}
 
+	/**
+	 * Retorna una vista inmutable de la lista de joins.
+	 * Para modificar, use getJoinsInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable de joins
+	 */
 	public List<Join> getJoins() {
+		return Collections.unmodifiableList(joins);
+	}
+
+	/**
+	 * Acceso interno a la lista mutable de joins (package-private).
+	 * Solo para uso de QueryCreator y clases del mismo paquete.
+	 *
+	 * @return Lista mutable de joins
+	 */
+	List<Join> getJoinsInternal() {
 		return joins;
 	}
 
@@ -66,7 +141,23 @@ public class QueryObject implements java.io.Serializable {
 		this.joins = joins;
 	}
 
+	/**
+	 * Retorna una vista inmutable de la lista de havings.
+	 * Para modificar, use getHavingsInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable de havings
+	 */
 	public List<ConditionExpression> getHavings() {
+		return Collections.unmodifiableList(havings);
+	}
+
+	/**
+	 * Acceso interno a la lista mutable de havings (package-private).
+	 * Solo para uso de QueryCreator y clases del mismo paquete.
+	 *
+	 * @return Lista mutable de havings
+	 */
+	List<ConditionExpression> getHavingsInternal() {
 		return havings;
 	}
 
@@ -106,8 +197,45 @@ public class QueryObject implements java.io.Serializable {
 		this.max = max;
 	}
 
+	/**
+	 * Retorna una vista inmutable del mapa de parámetros.
+	 * Para modificar, use getParameterMapInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable del mapa de parámetros
+	 */
 	public Map<String, Object> getParameterMap() {
+		return Collections.unmodifiableMap(parameters);
+	}
+
+	/**
+	 * Acceso interno al mapa mutable de parámetros (package-private).
+	 * Solo para uso de clases de expresión del mismo paquete.
+	 *
+	 * @return Mapa mutable de parámetros
+	 */
+	Map<String, Object> getParameterMapInternal() {
 		return parameters;
+	}
+
+	/**
+	 * Agrega un parámetro al mapa de parámetros de la consulta.
+	 * Método público para uso de clases de expresión.
+	 *
+	 * @param key Clave del parámetro
+	 * @param value Valor del parámetro
+	 */
+	public void addParameter(String key, Object value) {
+		parameters.put(key, value);
+	}
+
+	/**
+	 * Agrega múltiples parámetros al mapa de parámetros de la consulta.
+	 * Método público para uso de clases de expresión.
+	 *
+	 * @param params Mapa de parámetros a agregar
+	 */
+	public void addAllParameters(Map<String, Object> params) {
+		parameters.putAll(params);
 	}
 
 	public void setParameterMap(Map<String, Object> parameterMap) {
@@ -131,7 +259,23 @@ public class QueryObject implements java.io.Serializable {
 		this.conditionEvaluationMode = conditionEvaluationMode;
 	}
 
+	/**
+	 * Retorna una vista inmutable de la lista de condiciones.
+	 * Para modificar, use getConditionsInternal() (solo accesible desde el mismo paquete).
+	 *
+	 * @return Vista inmutable de condiciones
+	 */
 	public List<ConditionExpression> getConditions() {
+		return Collections.unmodifiableList(conditions);
+	}
+
+	/**
+	 * Acceso interno a la lista mutable de condiciones (package-private).
+	 * Solo para uso de QueryCreator y clases del mismo paquete.
+	 *
+	 * @return Lista mutable de condiciones
+	 */
+	List<ConditionExpression> getConditionsInternal() {
 		return conditions;
 	}
 

@@ -1,7 +1,6 @@
 package com.querybuilder.expression.clausules;
 
 import java.util.Iterator;
-import java.util.Map;
 
 import com.querybuilder.expression.ConditionExpression;
 import com.querybuilder.expression.Expression;
@@ -10,7 +9,6 @@ import com.querybuilder.query.QueryObject;
 public class HavingExpression implements Expression {
 
 	public String parse(QueryObject queryObject) {
-		Map<String, Object> parameterMap = queryObject.getParameterMap();
 		StringBuilder sb = new StringBuilder();
 		if (!queryObject.getHavings().isEmpty()) {
 			sb.append(" having ( ");
@@ -19,9 +17,11 @@ public class HavingExpression implements Expression {
 			Iterator<ConditionExpression> iterator = queryObject.getHavings().iterator();
 			while (iterator.hasNext()) {
 				ConditionExpression next = iterator.next();
-				sb.append(next.parse(queryObject)).append(" ").append(op).append(
-				" ");
-				parameterMap.putAll(next.getParameters());
+				sb.append(next.parse(queryObject));
+				if (iterator.hasNext()) {
+					sb.append(" ").append(op).append(" ");
+				}
+				queryObject.addAllParameters(next.getParameters());
 			}
 			sb.append(" ) ");
 		}
@@ -29,7 +29,6 @@ public class HavingExpression implements Expression {
 	}
 
 	public String getExpression() {
-		// TODO Auto-generated method stub
 		return " having ( ? ) ";
 	}
 	

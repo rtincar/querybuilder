@@ -25,6 +25,16 @@ public class ValueExpression extends ParametrizedExpression {
 		this.value = value;
 	}
 
+	/**
+	 * Parsea la expresión de valor y genera un nombre de parámetro único.
+	 *
+	 * ADVERTENCIA: Este método muta el estado de queryObject incrementando
+	 * el startParamIndex. No llame a parse() múltiples veces sobre el mismo
+	 * QueryObject, ya que generará nombres de parámetros inconsistentes.
+	 *
+	 * @param queryObject El contexto de la consulta (será mutado)
+	 * @return El nombre del parámetro con formato ":e0", ":e1", etc.
+	 */
 	public String parse(QueryObject queryObject) {
 		int startParamIndex = queryObject.getStartParamIndex();
 		String paramName = PARAM_NAME + startParamIndex;

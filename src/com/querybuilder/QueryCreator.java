@@ -18,11 +18,33 @@ import com.querybuilder.query.Select;
 import com.querybuilder.transformer.Transformer;
 
 /**
- * Clase con metodos convenientes para generar la consulta y obtner los resultados
- * 
- * 
- * @author rtincar
+ * API fluida para construir consultas JPA-QL de forma programática.
  *
+ * <h3>Patrón de Uso</h3>
+ * QueryCreator proporciona una interfaz fluida (método chaining) para construir
+ * consultas dinámicas de forma type-safe. El QueryObject subyacente está protegido
+ * contra modificaciones externas mediante vistas inmutables.
+ *
+ * <h3>Ejemplo de Uso</h3>
+ * <pre>{@code
+ * QueryCreator qc = QueryCreator.init(entityManager);
+ * List<Usuario> usuarios = qc
+ *     .select(get(path("u.nombre"), "nombre"), get(path("u.email"), "email"))
+ *     .from(entity(Usuario.class, "u"))
+ *     .whereAll(
+ *         eq("u.activo", true),
+ *         gt("u.edad", 18)
+ *     )
+ *     .orderBy("u.nombre asc")
+ *     .all();
+ * }</pre>
+ *
+ * <h3>Thread-Safety</h3>
+ * QueryCreator NO es thread-safe. Cree una nueva instancia para cada consulta.
+ *
+ * @author rtincar
+ * @see QueryObject
+ * @see ExpressionFactory
  */
 public class QueryCreator {
 
@@ -40,6 +62,9 @@ public class QueryCreator {
 	}
 
 	private QueryCreator(EntityManager entityManager) {
+		if (entityManager == null) {
+			throw new IllegalArgumentException("EntityManager no puede ser nulo");
+		}
 		this.entityManager = entityManager;
 		queryObject = new QueryObject();
 	}
@@ -175,7 +200,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator select(Select... selects) {
-		queryObject.getSelects().addAll(Arrays.asList(selects));
+		if (selects == null || selects.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos un select");
+		}
+		for (Select select : selects) {
+			if (select == null) {
+				throw new IllegalArgumentException("Los elementos select no pueden ser nulos");
+			}
+		}
+		queryObject.getSelectsInternal().addAll(Arrays.asList(selects));
 		return this;
 	}
 
@@ -186,7 +219,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator from(From... froms) {
-		queryObject.getFroms().addAll(Arrays.asList(froms));
+		if (froms == null || froms.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos un from");
+		}
+		for (From from : froms) {
+			if (from == null) {
+				throw new IllegalArgumentException("Los elementos from no pueden ser nulos");
+			}
+		}
+		queryObject.getFromsInternal().addAll(Arrays.asList(froms));
 		return this;
 	}
 
@@ -197,7 +238,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator join(Join... joins) {
-		queryObject.getJoins().addAll(Arrays.asList(joins));
+		if (joins == null || joins.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos un join");
+		}
+		for (Join join : joins) {
+			if (join == null) {
+				throw new IllegalArgumentException("Los elementos join no pueden ser nulos");
+			}
+		}
+		queryObject.getJoinsInternal().addAll(Arrays.asList(joins));
 		return this;
 	}
 
@@ -209,7 +258,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator whereAll(ConditionExpression... conditions) {
-		queryObject.getConditions().add(ExpressionFactory.all(conditions));
+		if (conditions == null || conditions.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos una condición");
+		}
+		for (ConditionExpression condition : conditions) {
+			if (condition == null) {
+				throw new IllegalArgumentException("Las condiciones no pueden ser nulas");
+			}
+		}
+		queryObject.getConditionsInternal().add(ExpressionFactory.all(conditions));
 		return this;
 	}
 
@@ -222,7 +279,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator whereAny(ConditionExpression... conditions) {
-		queryObject.getConditions().add(ExpressionFactory.any(conditions));
+		if (conditions == null || conditions.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos una condición");
+		}
+		for (ConditionExpression condition : conditions) {
+			if (condition == null) {
+				throw new IllegalArgumentException("Las condiciones no pueden ser nulas");
+			}
+		}
+		queryObject.getConditionsInternal().add(ExpressionFactory.any(conditions));
 		return this;
 	}
 
@@ -233,20 +298,16 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator groupBy(String... group) {
-		StringBuilder sb = new StringBuilder();
-		for (Iterator<String> iterator = Arrays.asList(group).iterator(); iterator
-				.hasNext();) {
-			sb.append(iterator.next());
-			if (iterator.hasNext()) {
-				sb.append(", ");
-			}
+		if (group == null || group.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos un campo para agrupar");
 		}
+		String newGroupBy = joinWithCommas(group);
 		if (queryObject.getGroupBy() != null
 				&& queryObject.getGroupBy().length() > 0) {
 			String current = queryObject.getGroupBy();
-			queryObject.setGroupBy(current + ", " + sb.toString());
+			queryObject.setGroupBy(current + ", " + newGroupBy);
 		} else {
-			queryObject.setGroupBy(sb.toString());
+			queryObject.setGroupBy(newGroupBy);
 		}
 		return this;
 	}
@@ -259,7 +320,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator havingAll(ConditionExpression... conditionExpression) {
-		queryObject.getHavings()
+		if (conditionExpression == null || conditionExpression.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos una condición para having");
+		}
+		for (ConditionExpression condition : conditionExpression) {
+			if (condition == null) {
+				throw new IllegalArgumentException("Las condiciones having no pueden ser nulas");
+			}
+		}
+		queryObject.getHavingsInternal()
 				.add(ExpressionFactory.all(conditionExpression));
 		return this;
 	}
@@ -272,7 +341,15 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator havingAny(ConditionExpression... conditionExpression) {
-		queryObject.getHavings()
+		if (conditionExpression == null || conditionExpression.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos una condición para having");
+		}
+		for (ConditionExpression condition : conditionExpression) {
+			if (condition == null) {
+				throw new IllegalArgumentException("Las condiciones having no pueden ser nulas");
+			}
+		}
+		queryObject.getHavingsInternal()
 				.add(ExpressionFactory.any(conditionExpression));
 		return this;
 	}
@@ -284,21 +361,16 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator orderBy(String... order) {
-
-		StringBuilder sb = new StringBuilder();
-		for (Iterator<String> iterator = Arrays.asList(order).iterator(); iterator
-				.hasNext();) {
-			sb.append(iterator.next());
-			if (iterator.hasNext()) {
-				sb.append(", ");
-			}
+		if (order == null || order.length == 0) {
+			throw new IllegalArgumentException("Debe proporcionar al menos un campo para ordenar");
 		}
+		String newOrderBy = joinWithCommas(order);
 		if (queryObject.getOrderBy() != null
 				&& queryObject.getOrderBy().length() > 0) {
 			String current = queryObject.getOrderBy();
-			queryObject.setOrderBy(current + ", " + sb.toString());
+			queryObject.setOrderBy(current + ", " + newOrderBy);
 		} else {
-			queryObject.setOrderBy(sb.toString());
+			queryObject.setOrderBy(newOrderBy);
 		}
 		return this;
 	}
@@ -312,6 +384,12 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator take(int from, int max) {
+		if (from < 0) {
+			throw new IllegalArgumentException("El valor 'from' no puede ser negativo");
+		}
+		if (max < 0) {
+			throw new IllegalArgumentException("El valor 'max' no puede ser negativo");
+		}
 		queryObject.setFirst(from);
 		queryObject.setMax(max);
 		return this;
@@ -324,6 +402,9 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator startAt(int start) {
+		if (start < 0) {
+			throw new IllegalArgumentException("El valor 'start' no puede ser negativo");
+		}
 		queryObject.setFirst(start);
 		return this;
 	}
@@ -335,8 +416,28 @@ public class QueryCreator {
 	 * @return
 	 */
 	public QueryCreator limit(int limit) {
+		if (limit < 0) {
+			throw new IllegalArgumentException("El valor 'limit' no puede ser negativo");
+		}
 		queryObject.setMax(limit);
 		return this;
+	}
+
+	/**
+	 * Método helper que concatena un array de strings con separador de coma
+	 *
+	 * @param values Array de strings a concatenar
+	 * @return String con valores separados por ", "
+	 */
+	private String joinWithCommas(String... values) {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<String> iterator = Arrays.asList(values).iterator(); iterator.hasNext();) {
+			sb.append(iterator.next());
+			if (iterator.hasNext()) {
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
 	}
 
 }

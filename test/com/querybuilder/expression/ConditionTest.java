@@ -51,62 +51,41 @@ public class ConditionTest {
 	
 	@Test
 	public void allConditionEquals() {
-		/*ConditionExpression all = all(
-			eq("prop2", 45),
-			in("a.prop3", Arrays.asList(23,24,25)),
-			isNull("prop5"),
-			like("prop6", "jkjks")
-		);
-		
-		ConditionExpression all2 = all(
-			eq("prop2", 45),
-			in("a.prop3", Arrays.asList(23,24,25)),
-			isNull("prop5"),
-			like("prop6", "jkjks")
-		);*/
-		//assertEquals("Las listas de condiciones no son iguales!!!", all, all2);
-		
-		
 		List<Integer> asList1 = Arrays.asList(23,24,25);
 		List<Integer> asList2 = Arrays.asList(23,24,25);
 		Map<String, Object> mapa1 = new LinkedHashMap<String, Object>(0);
 		Map<String, Object> mapa2 = new LinkedHashMap<String, Object>(0);
 		mapa1.put("e0", asList1);
 		mapa2.put("e0", asList2);
-		
+
 		assertEquals(asList1, asList2);
 		assertEquals(mapa1, mapa2);
-		
+
 		ValueExpression value1 = value(new String[]{"uno", "dos"});
 		ValueExpression value2 = value(new String[]{"uno", "dos"});
-		
+
 		SimpleCondition in1 = notin("prop3", value1);
 		SimpleCondition in2 = notin("prop3", value2);
-		
-		System.out.println(in1.parse(new QueryObject()));
-		System.out.println(in1.getParameters());
-		System.out.println(in2.parse(new QueryObject()));
-		System.out.println(in2.getParameters());
-		
-		
-		assertEquals("LOS VALORES DE LAS LISTAS NO SON IGUALES!!!! ",value1, value2);
-		
+
+		// Verificar que las condiciones parsean correctamente
+		QueryObject qo1 = new QueryObject();
+		QueryObject qo2 = new QueryObject();
+		String parsed1 = in1.parse(qo1);
+		String parsed2 = in2.parse(qo2);
+
+		assertNotNull("Parsed condition no debe ser nulo", parsed1);
+		assertNotNull("Parsed condition no debe ser nulo", parsed2);
+		assertFalse("Parameters debe tener valores", in1.getParameters().isEmpty());
+		assertFalse("Parameters debe tener valores", in2.getParameters().isEmpty());
+
+		assertEquals("LOS VALORES DE LAS LISTAS NO SON IGUALES!!!! ", value1, value2);
+
 		assertEquals(in1.getExpression(), in2.getExpression());
 		SimpleCondition eq1 = eq("prop2", 45);
 		SimpleCondition eq2 = eq("prop2", 45);
-		
-		System.out.println(eq1.equals(eq2));
-		
-		System.out.println(in1.equals(in2));
-		
-		
-		
+
+		assertTrue("Condiciones iguales deben ser equals", eq1.equals(eq2));
+		assertTrue("Condiciones iguales deben ser equals", in1.equals(in2));
 	}
-	
-	
-	
-	
-	
-	
 
 }

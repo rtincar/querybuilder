@@ -29,7 +29,6 @@ public class SelectExpression implements Expression {
 	}
 
 	public String getExpression() {
-		// TODO Auto-generated method stub
 		return "select ? ";
 	}
 	

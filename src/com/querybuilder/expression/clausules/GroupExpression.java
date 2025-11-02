@@ -15,7 +15,6 @@ public class GroupExpression implements Expression {
 	}
 
 	public String getExpression() {
-		// TODO Auto-generated method stub
 		return "group by ? ";
 	}
 	
